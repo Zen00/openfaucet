@@ -7,3 +7,9 @@
       </div>
     </article>
 {/section}
+{section name=form class="faucet form"}
+<form action="faucet.entry.php" method="post">
+	<input name="user_address" type="text" />
+	<input name="user_submit" type="submit" value="submit" />
+</form>
+{/section}
