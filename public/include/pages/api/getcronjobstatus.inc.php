@@ -14,7 +14,7 @@ if (!$user->isAdmin($user_id)) {
 }
 
 // Default crons to monitor
-$aCrons = array('statistics','payouts','token_cleanup','archive_cleanup','blockupdate','findblock','notifications','tickerupdate','liquid_payout');
+$aCrons = array('payout');
 
 // Special cases, only add them if activated
 switch ($config['payout_system']) {
