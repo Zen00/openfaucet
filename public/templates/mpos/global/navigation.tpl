@@ -1,5 +1,3 @@
-{if $smarty.session.AUTHENTICATED|default:"0" == 1}
-
     <hr/>
     <li class="icon-home"><a href="{$smarty.server.SCRIPT_NAME}">Home</a></li>
     {if $smarty.session.AUTHENTICATED|default:"0" == 1}
@@ -40,4 +38,3 @@
     <ul>
       <hr/>
     </ul>
-{/if}
