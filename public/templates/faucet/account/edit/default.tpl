@@ -24,7 +24,7 @@
         {nocache}<input type="text" name="paymentAddress" value="{$smarty.request.paymentAddress|default:$GLOBAL.userdata.coin_address|escape}" size="40"  {if $GLOBAL.twofactor.enabled && $GLOBAL.twofactor.options.details && !$DETAILSUNLOCKED}disabled{/if}/>{/nocache}
       </fieldset>
 	    <label>Stash Balance</label>
- 
+ <fieldset>
 <div class="module_content">
       <p style="padding-left:3px; padding-redight:30px; font-size:10px;">
         Return a selected amount of {$GLOBAL.config.currency} to an offsite wallet if there is more in the wallet than deemed safe for online storage.
@@ -33,7 +33,7 @@
         {nocache}<input type="text" value="0.00"{/nocache}
       </fieldset>
     </div>
-
+</fieldset>
       <fieldset>
         <label>4 digit PIN</label>
         <font size="1">The 4 digit PIN you chose when registering</font>
