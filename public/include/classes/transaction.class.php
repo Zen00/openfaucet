@@ -314,7 +314,6 @@ $transaction = new Transaction();
 $transaction->setDebug($debug);
 $transaction->setMysql($mysqli);
 $transaction->setConfig($config);
-$transaction->setUser($user);
 $transaction->setErrorCodes($aErrorCodes);
 
 ?>
