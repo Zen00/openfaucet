@@ -3,8 +3,12 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>{$GLOBAL.website.title} I {$smarty.request.page|escape|default:"home"|capitalize}</title>
-	
+{if $smarty.session.AUTHENTICATED|default:"0" == 0}
+<link rel="stylesheet" href="{$PATH}/css/layout-unauthorized.css" type="text/css" media="screen" />	
+{/if}
+{if $smarty.session.AUTHENTICATED|default:"0" == 1 && $GLOBAL.userdata.is_admin|default:"0" == 1}
 	<link rel="stylesheet" href="{$PATH}/css/layout.css" type="text/css" media="screen" />
+{/if}
   <link rel="stylesheet" href="{$PATH}/css/fontello.css">
   <link rel="stylesheet" href="{$PATH}/css/animation.css">
   <!--[if IE 7]><link rel="stylesheet" href="css/fontello-ie7.css"><![endif]-->
