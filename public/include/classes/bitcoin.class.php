@@ -4,45 +4,45 @@ if (!defined('SECURITY'))
   die('Hacking attempt');
 
 /**
-* Bitcoin classes
-*
-* By Mike Gogulski - All rights reversed http://www.unlicense.org/ (public domain)
-*
-* If you find this library useful, your donation of Bitcoins to address
-* 1E3d6EWLgwisXY2CWXDcdQQP2ivRN7e9r9 would be greatly appreciated. Thanks!
-*
-* PHPDoc is available at http://code.gogulski.com/
-*
-* @author Mike Gogulski - http://www.nostate.com/ http://www.gogulski.com/
-* @author theymos - theymos @ http://bitcoin.org/smf
-*/
+ * Bitcoin classes
+ *
+ * By Mike Gogulski - All rights reversed http://www.unlicense.org/ (public domain)
+ *
+ * If you find this library useful, your donation of Bitcoins to address
+ * 1E3d6EWLgwisXY2CWXDcdQQP2ivRN7e9r9 would be greatly appreciated. Thanks!
+ *
+ * PHPDoc is available at http://code.gogulski.com/
+ *
+ * @author Mike Gogulski - http://www.nostate.com/ http://www.gogulski.com/
+ * @author theymos - theymos @ http://bitcoin.org/smf
+ */
 
 define("BITCOIN_ADDRESS_VERSION", "00");// this is a hex byte
 /**
-* Bitcoin utility functions class
-*
-* @author theymos (functionality)
-* @author Mike Gogulski
-*         http://www.gogulski.com/ http://www.nostate.com/
-* (encapsulation, string abstraction, PHPDoc)
-*/
+ * Bitcoin utility functions class
+ *
+ * @author theymos (functionality)
+ * @author Mike Gogulski
+ * 	http://www.gogulski.com/ http://www.nostate.com/
+ *  (encapsulation, string abstraction, PHPDoc)
+ */
 class Bitcoin {
 
   /*
-* Bitcoin utility functions by theymos
-* Via http://www.bitcoin.org/smf/index.php?topic=1844.0
-* hex input must be in uppercase, with no leading 0x
-*/
+   * Bitcoin utility functions by theymos
+   * Via http://www.bitcoin.org/smf/index.php?topic=1844.0
+   * hex input must be in uppercase, with no leading 0x
+   */
   private static $hexchars = "0123456789ABCDEF";
   private static $base58chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
   /**
-* Convert a hex string into a (big) integer
-*
-* @param string $hex
-* @return int
-* @access private
-*/
+   * Convert a hex string into a (big) integer
+   *
+   * @param string $hex
+   * @return int
+   * @access private
+   */
   private function decodeHex($hex) {
     $hex = strtoupper($hex);
     $return = "0";
@@ -55,12 +55,12 @@ class Bitcoin {
   }
 
   /**
-* Convert an integer into a hex string
-*
-* @param int $dec
-* @return string
-* @access private
-*/
+   * Convert an integer into a hex string
+   *
+   * @param int $dec
+   * @return string
+   * @access private
+   */
   private function encodeHex($dec) {
     $return = "";
     while (bccomp($dec, 0) == 1) {
@@ -73,12 +73,12 @@ class Bitcoin {
   }
 
   /**
-* Convert a Base58-encoded integer into the equivalent hex string representation
-*
-* @param string $base58
-* @return string
-* @access private
-*/
+   * Convert a Base58-encoded integer into the equivalent hex string representation
+   *
+   * @param string $base58
+   * @return string
+   * @access private
+   */
   private function decodeBase58($base58) {
     $origbase58 = $base58;
 
@@ -104,12 +104,12 @@ class Bitcoin {
   }
 
   /**
-* Convert a hex string representation of an integer into the equivalent Base58 representation
-*
-* @param string $hex
-* @return string
-* @access private
-*/
+   * Convert a hex string representation of an integer into the equivalent Base58 representation
+   *
+   * @param string $hex
+   * @return string
+   * @access private
+   */
   private function encodeBase58($hex) {
     if (strlen($hex) % 2 != 0) {
       die("encodeBase58: uneven number of hex characters");
@@ -135,14 +135,14 @@ class Bitcoin {
   }
 
   /**
-* Convert a 160-bit Bitcoin hash to a Bitcoin address
-*
-* @author theymos
-* @param string $hash160
-* @param string $addressversion
-* @return string Bitcoin address
-* @access public
-*/
+   * Convert a 160-bit Bitcoin hash to a Bitcoin address
+   *
+   * @author theymos
+   * @param string $hash160
+   * @param string $addressversion
+   * @return string Bitcoin address
+   * @access public
+   */
   public static function hash160ToAddress($hash160, $addressversion = BITCOIN_ADDRESS_VERSION) {
     $hash160 = $addressversion . $hash160;
     $check = pack("H*", $hash160);
@@ -153,13 +153,13 @@ class Bitcoin {
   }
 
   /**
-* Convert a Bitcoin address to a 160-bit Bitcoin hash
-*
-* @author theymos
-* @param string $addr
-* @return string Bitcoin hash
-* @access public
-*/
+   * Convert a Bitcoin address to a 160-bit Bitcoin hash
+   *
+   * @author theymos
+   * @param string $addr
+   * @return string Bitcoin hash
+   * @access public
+   */
   public static function addressToHash160($addr) {
     $addr = self::decodeBase58($addr);
     $addr = substr($addr, 2, strlen($addr) - 10);
@@ -167,14 +167,14 @@ class Bitcoin {
   }
 
   /**
-* Determine if a string is a valid Bitcoin address
-*
-* @author theymos
-* @param string $addr String to test
-* @param string $addressversion
-* @return boolean
-* @access public
-*/
+   * Determine if a string is a valid Bitcoin address
+   *
+   * @author theymos
+   * @param string $addr String to test
+   * @param string $addressversion
+   * @return boolean
+   * @access public
+   */
   public static function checkAddress($addr, $addressversion = BITCOIN_ADDRESS_VERSION) {
     $addr = self::decodeBase58($addr);
     if (strlen($addr) != 50) {
@@ -192,35 +192,35 @@ class Bitcoin {
   }
 
   /**
-* Convert the input to its 160-bit Bitcoin hash
-*
-* @param string $data
-* @return string
-* @access private
-*/
+   * Convert the input to its 160-bit Bitcoin hash
+   *
+   * @param string $data
+   * @return string
+   * @access private
+   */
   private function hash160($data) {
     $data = pack("H*", $data);
     return strtoupper(hash("ripemd160", hash("sha256", $data, true)));
   }
 
   /**
-* Convert a Bitcoin public key to a 160-bit Bitcoin hash
-*
-* @param string $pubkey
-* @return string
-* @access public
-*/
+   * Convert a Bitcoin public key to a 160-bit Bitcoin hash
+   *
+   * @param string $pubkey
+   * @return string
+   * @access public
+   */
   public static function pubKeyToAddress($pubkey) {
     return self::hash160ToAddress(self::hash160($pubkey));
   }
 
   /**
-* Remove leading "0x" from a hex value if present.
-*
-* @param string $string
-* @return string
-* @access public
-*/
+   * Remove leading "0x" from a hex value if present.
+   *
+   * @param string $string
+   * @return string
+   * @access public
+   */
   public static function remove0x($string) {
     if (substr($string, 0, 2) == "0x" || substr($string, 0, 2) == "0X") {
       $string = substr($string, 2);
@@ -232,40 +232,40 @@ class Bitcoin {
 require_once(INCLUDE_DIR . "/lib/jsonRPCClient.php");
 
 /**
-* Bitcoin client class for access to a Bitcoin server via JSON-RPC-HTTP[S]
-*
-* Implements the methods documented at https://www.bitcoin.org/wiki/doku.php?id=api
-*
-* @version 0.3.19
-* @author Mike Gogulski
-*         http://www.gogulski.com/ http://www.nostate.com/
-*/
+ * Bitcoin client class for access to a Bitcoin server via JSON-RPC-HTTP[S]
+ *
+ * Implements the methods documented at https://www.bitcoin.org/wiki/doku.php?id=api
+ *
+ * @version 0.3.19
+ * @author Mike Gogulski
+ * 	http://www.gogulski.com/ http://www.nostate.com/
+ */
 class BitcoinClient extends jsonRPCClient {
 
   /**
-* Create a jsonrpc_client object to talk to the bitcoin server and return it,
-* or false on failure.
-*
-* @param string $scheme
-*         "http" or "https"
-* @param string $username
-*         User name to use in connection the Bitcoin server's JSON-RPC interface
-* @param string $password
-*         Server password
-* @param string $address
-*         Server hostname or IP address
-* @param mixed $port
-*         Server port (string or integer)
-* @param string $certificate_path
-*         Path on the local filesystem to server's PEM certificate (ignored if $scheme != "https")
-* @param integer $debug_level
-*         0 (default) = no debugging;
-*         1 = echo JSON-RPC messages received to stdout;
-*         2 = log transmitted messages also
-* @return jsonrpc_client
-* @access public
-* @throws BitcoinClientException
-*/
+   * Create a jsonrpc_client object to talk to the bitcoin server and return it,
+   * or false on failure.
+   *
+   * @param string $scheme
+   * 	"http" or "https"
+   * @param string $username
+   * 	User name to use in connection the Bitcoin server's JSON-RPC interface
+   * @param string $password
+   * 	Server password
+   * @param string $address
+   * 	Server hostname or IP address
+   * @param mixed $port
+   * 	Server port (string or integer)
+   * @param string $certificate_path
+   * 	Path on the local filesystem to server's PEM certificate (ignored if $scheme != "https")
+   * @param integer $debug_level
+   * 	0 (default) = no debugging;
+   * 	1 = echo JSON-RPC messages received to stdout;
+   * 	2 = log transmitted messages also
+   * @return jsonrpc_client
+   * @access public
+   * @throws BitcoinClientException
+   */
   public function __construct($scheme, $username, $password, $address = "localhost", $certificate_path = '', $debug = false) {
     $scheme = strtolower($scheme);
     if ($scheme != "http" && $scheme != "https")
@@ -281,15 +281,15 @@ class BitcoinClient extends jsonRPCClient {
   }
 
   /**
-* Test if the connection to the Bitcoin JSON-RPC server is working
-*
-* The check is done by calling the server's getinfo() method and checking
-* for a fault.
-*
-* @return mixed boolean TRUE if successful, or a fault string otherwise
-* @access public
-* @throws none
-*/
+   * Test if the connection to the Bitcoin JSON-RPC server is working
+   *
+   * The check is done by calling the server's getinfo() method and checking
+   * for a fault.
+   *
+   * @return mixed boolean TRUE if successful, or a fault string otherwise
+   * @access public
+   * @throws none
+   */
   public function can_connect() {
     try {
       $r = $this->getinfo();

@@ -16,12 +16,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-*/
+ */
 
 // Used for performance calculations
 $dStartTime = microtime(true);
 
 // This should be okay
+// No but Its now, - Aim
 define("BASEPATH", dirname(__FILE__) . "/");
 
 // Our security check
@@ -76,9 +77,16 @@ if (is_dir(INCLUDE_DIR . '/pages/' . $page)) {
     $debug->append("Adding $pagename as " . $filename . ".inc.php to accessible actions", 4);
   }
 }
-
 // Default to empty (nothing) if nothing set or not known
 $action = (isset($_REQUEST['action']) && !is_array($_REQUEST['action'])) && isset($arrActions[$_REQUEST['action']]) ? $_REQUEST['action'] : "";
+
+// Check csrf token validity if necessary
+if ($config['csrf']['enabled'] && isset($_POST['ctoken']) && !empty($_POST['ctoken']) && !is_array($_POST['ctoken'])) {
+  $csrftoken->valid = ($csrftoken->checkBasic($user->getCurrentIP(), $arrPages[$page], $_POST['ctoken'])) ? 1 : 0;
+} else if ($config['csrf']['enabled'] && (!@$_POST['ctoken'] || empty($_POST['ctoken']) || is_array($_POST['ctoken']))) {
+  $csrftoken->valid = 0;
+}
+if ($config['csrf']['enabled']) $smarty->assign('CTOKEN', $csrftoken->getBasic($user->getCurrentIP(), $arrPages[$page]));
 
 // Load the page code setting the content for the page OR the page action instead if set
 if (!empty($action)) {
@@ -109,4 +117,5 @@ if (!@$supress_master) $smarty->display($master_template, $smarty_cache_key);
 
 // Unset any temporary values here
 unset($_SESSION['POPUP']);
+
 ?>

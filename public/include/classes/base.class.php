@@ -1,6 +1,8 @@
 <?php
+
 // Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+if (!defined('SECURITY'))
+  die('Hacking attempt');
 
 /**
  * Our base class that we extend our other classes from
@@ -23,6 +25,15 @@ class Base {
   public function setMysql($mysqli) {
     $this->mysqli = $mysqli;
   }
+  public function setMail($mail) {
+    $this->mail = $mail;
+  }
+  public function setSalt($salt) {
+    $this->salt = $salt;
+  }
+  public function setSalty($salt) {
+    $this->salty = $salt;
+  }
   public function setSmarty($smarty) {
     $this->smarty = $smarty;
   }
@@ -35,11 +46,17 @@ class Base {
   public function setErrorCodes(&$aErrorCodes) {
     $this->aErrorCodes =& $aErrorCodes;
   }
+  public function setToken($token) {
+    $this->token = $token;
+  }
   public function setBlock($block) {
     $this->block = $block;
   }
   public function setTransaction($transaction) {
     $this->transaction = $transaction;
+  }
+  public function setMemcache($memcache) {
+    $this->memcache = $memcache;
   }
   public function setStatistics($statistics) {
     $this->statistics = $statistics;
@@ -55,6 +72,12 @@ class Base {
   }
   public function setTokenType($tokentype) {
     $this->tokentype = $tokentype;
+  }
+  public function setCSRFToken($token) {
+    $this->CSRFToken = $token;
+  }
+  public function setShare($share) {
+    $this->share = $share;
   }
   public function setErrorMessage($msg) {
     $this->sError = $msg;

@@ -1,16 +1,16 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 
 #########################
-# #
+#                       #
 # Configuration Options #
-# #
+#                       #
 #########################
 # PHP Detections, if this fails hard code it
 PHP_BIN=$( which php )
 
 # List of cruns to execute
-CRONS="findblock.php proportional_payout.php pplns_payout.php pps_payout.php blockupdate.php payouts.php tickerupdate.php notifications.php statistics.php token_cleanup.php archive_cleanup.php liquid_payout.php"
+CRONS="findblock.php proportional_payout.php pplns_payout.php pps_payout.php blockupdate.php payouts.php liquid_payout.php"
 
 # Output additional runtime information
 VERBOSE="0"
@@ -24,9 +24,9 @@ BASEPATH="/tmp"
 SUBFOLDER=""
 
 ################################################################
-# #
+#                                                              #
 # You probably don't need to change anything beyond this point #
-# #
+#                                                              #
 ################################################################
 
 # Mac OS detection
@@ -39,7 +39,7 @@ case "$OS" in
 esac
 
 if [[ ! -x $READLINK ]]; then
-echo "readlink not found, please install first";
+  echo "readlink not found, please install first";
   exit 1;
 fi
 
@@ -48,7 +48,7 @@ ME=$( basename $0 )
 
 # Overwrite some settings via command line arguments
 while getopts "hfvp:d:" opt; do
-case "$opt" in
+  case "$opt" in
     h|\?)
       echo "Usage: $0 [-v] [-p PHP_BINARY] [-d SUBFOLDER]";
       exit 0
@@ -71,31 +71,31 @@ PIDFILE=$($READLINK -m "$PIDFILE")
 
 # Create folders recursively if necessary
 if ! $(mkdir -p $( dirname $PIDFILE)); then
-echo "Error creating PIDFILE path: $( dirname $PIDFILE )"
+  echo "Error creating PIDFILE path: $( dirname $PIDFILE )"
   exit 1
 fi
 
 # Find scripts path
 if [[ -L $0 ]]; then
-CRONHOME=$( dirname $( $READLINK $0 ) )
+  CRONHOME=$( dirname $( $READLINK $0 ) )
 else
-CRONHOME=$( dirname $0 )
+  CRONHOME=$( dirname $0 )
 fi
 
 # Change working director to CRONHOME
 if ! cd $CRONHOME 2>/dev/null; then
-echo "Unable to change to working directory \$CRONHOME: $CRONHOME"
+  echo "Unable to change to working directory \$CRONHOME: $CRONHOME"
   exit 1
 fi
 
 # Confiuration checks
 if [[ -z $PHP_BIN || ! -x $PHP_BIN ]]; then
-echo "Unable to locate you php binary."
+  echo "Unable to locate you php binary."
   exit 1
 fi
 
 if [[ ! -e 'shared.inc.php' ]]; then
-echo "Not in cronjobs folder, please ensure \$CRONHOME is set!"
+  echo "Not in cronjobs folder, please ensure \$CRONHOME is set!"
   exit 1
 fi
 
@@ -103,13 +103,13 @@ fi
 PID=$$
 
 if [[ -e $PIDFILE ]]; then
-echo "Cron seems to be running already"
+  echo "Cron seems to be running already"
   RUNPID=$( cat $PIDFILE )
   if ps fax | grep -q "^\<$RUNPID\>"; then
-echo "Process found in process table, aborting"
+    echo "Process found in process table, aborting"
     exit 1
   else
-echo "Process $RUNPID not found. Plese remove $PIDFILE if process is indeed dead."
+    echo "Process $RUNPID not found. Plese remove $PIDFILE if process is indeed dead."
     exit 1
   fi
 fi
