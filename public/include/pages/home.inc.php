@@ -12,7 +12,6 @@ if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
   $debug->append('No cached version available, fetching from backend', 3);
 
   $smarty->assign("HIDEAUTHOR", $setting->getValue('acl_hide_news_author'));
-  $smarty->assign("NEWS", $aNews);
 } else {
   $debug->append('Using cached page', 3);
 }
