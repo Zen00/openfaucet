@@ -18,11 +18,7 @@ limitations under the License.
 
 */
 
-// Used for performance calculations
-$dStartTime = microtime(true);
-
 // This should be okay
-// No but Its now, - Aim
 define("BASEPATH", dirname(__FILE__) . "/");
 
 // Our security check

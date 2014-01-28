@@ -311,11 +311,9 @@ class Transaction extends Base {
 }
 
 $transaction = new Transaction();
-$transaction->setMemcache($memcache);
 $transaction->setDebug($debug);
 $transaction->setMysql($mysqli);
 $transaction->setConfig($config);
-$transaction->setBlock($block);
 $transaction->setUser($user);
 $transaction->setErrorCodes($aErrorCodes);
 
