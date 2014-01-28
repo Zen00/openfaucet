@@ -17,7 +17,6 @@ $aGlobal = array(
     'recaptcha_enabled_logins' => $setting->getValue('recaptcha_enabled_logins'),
     'disable_navbar' => $setting->getValue('disable_navbar'),
     'disable_navbar_api' => $setting->getValue('disable_navbar_api'),
-    'accounts' => $config['accounts'],
    )
 );
 
@@ -48,8 +47,6 @@ $aGlobal['acl']['blockfinder']['statistics'] = $setting->getValue('acl_blockfind
 $aGlobal['acl']['uptime']['statistics'] = $setting->getValue('acl_uptime_statistics');
 
 // Site-wide notifications, based on user events
-if ($user->getUserFailed($_SESSION['USERDATA']['id']) > 0)
-  $_SESSION['POPUP'][] = array('CONTENT' => 'You have ' . $user->getUserFailed($_SESSION['USERDATA']['id']) . ' failed login attempts! <a href="?page=account&action=reset_failed">Reset Counter</a>', 'TYPE' => 'errormsg');
 if ($setting->getValue('maintenance'))
   $_SESSION['POPUP'][] = array('CONTENT' => 'This pool is currently in maintenance mode.', 'TYPE' => 'warning');
 if ($motd = $setting->getValue('system_motd'))
