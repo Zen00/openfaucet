@@ -40,8 +40,6 @@
     {include file="global/header.tpl"}
 	</header>
 	<section id="secondary_bar">
-    {include file="global/userinfo.tpl"}
-    {include file="global/breadcrumbs.tpl"}
 	</section>
 	<aside id="sidebar" class="column">
     {include file="global/navigation.tpl"}

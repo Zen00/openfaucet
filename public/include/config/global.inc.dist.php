@@ -107,4 +107,52 @@ $config['cookie']['domain'] = '';
 $config['cookie']['path'] = '/';
 $config['cookie']['httponly'] = true;
 $config['cookie']['secure'] = false;
+
+/**
+ * Enable or disable the Smarty cache
+ *
+ * Explanation:
+ *   Smarty implements a file based cache for all HTML output generated
+ *   from dynamic scripts. It can be enabled to cache the HTML data on disk,
+ *   future request are served from those cache files.
+ *
+ *   This may or may not work as expected, in general Memcache is used to cache
+ *   all data so rendering the page should not take too long anyway.
+ *
+ *   You can test this out and enable (1) this setting but it's not guaranteed to
+ *   work with MPOS.
+ *
+ *   Ensure that the folder `templates/cache` is writeable by the web server!
+ *
+ *   cache           =  Enable/Disable the cache
+ *   cache_lifetime  =  Time to keep files in seconds before updating them
+ *
+ *  Options:
+ *    cache:
+ *      0  =  disabled
+ *      1  =  enabled
+ *    cache_lifetime:
+ *      time in seconds
+ *
+ *  Defaults:
+ *    cache           =  0, disabled
+ *    cache_lifetime  =  30 seconds
+ **/
+$config['smarty']['cache'] = 0;
+$config['smarty']['cache_lifetime'] = 30;
+
+/**
+ * System load setting
+ *
+ * This will disable loading of some API calls in case the system
+ * loads exceeds the defined max setting.
+ *
+ * Options
+ *   max    =  float, maximum system load
+ *
+ * Defaults:
+ *   max    =  10.0
+ **/
+$config['system']['load']['max'] = 10.0;
+
 ?>
