@@ -42,7 +42,7 @@ background: #222222 url(../images/header_bg.png) repeat-x;
 
 header#header h1.site_title, header#header h2.section_title {
 white-space: nowrap;
-text-align:center;
+float: left;
 margin: 0;
 margin-right: 2.8%;
 padding-right: 1.8%;
@@ -55,6 +55,10 @@ text-indent: 1.8%;
 line-height: 55px;
 color: #fff;
 text-shadow: 0 -1px 0 #000;
+}
+
+header#header h1.site_title {
+text-align:center;
 }
 
 header#header h1.site_title a {
