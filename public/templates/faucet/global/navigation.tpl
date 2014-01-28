@@ -19,13 +19,12 @@
       <li class="icon-pencil"><a href="{$smarty.server.SCRIPT_NAME}?page=admin&action=templates">Templates</a></li>
     </ul>
     {/if}
-    <h3>Help</h3>
+    <h3>Other</h3>
     <ul class="toggle">
       {if !$GLOBAL.website.about.disabled}
       <li class="icon-doc"><a href="{$smarty.server.SCRIPT_NAME}?page=about&action=pool">About</a></li>
       {/if}
     </ul>
-    <h3>Other</h3>
     <ul class="toggle">
       {if $smarty.session.AUTHENTICATED|default:"0" == 1}
       {if $GLOBAL.config.disable_contactform|default:"0" != 1}

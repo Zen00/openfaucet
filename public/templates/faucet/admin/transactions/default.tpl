@@ -20,53 +20,7 @@
 </article>
 {/if}
 
-<article class="module width_quarter">
-  <header><h3>Transaction Filter</h3></header>
-  <div class="module_content">
-  <form action="{$smarty.server.SCRIPT_NAME}">
-    <input type="hidden" name="page" value="{$smarty.request.page|escape}" />
-    <input type="hidden" name="action" value="{$smarty.request.action|escape}" />
-    <table cellspacing="0" class="tablesorter">
-    <tbody>
-      <tr>
-        <td align="left">
-{if $smarty.request.start|default:"0" > 0}
-          <a href="{$smarty.server.SCRIPT_NAME}?page={$smarty.request.page|escape}&action={$smarty.request.action|escape}&start={$smarty.request.start|escape|default:"0" - $LIMIT}{if $FILTERS|default:""}{$FILTERS}{/if}"><i class="icon-left-open"></i></a>
-{else}
-          <i class="icon-left-open"></i>
-{/if}
-        </td>
-        <td align="right">
-          <a href="{$smarty.server.SCRIPT_NAME}?page={$smarty.request.page|escape}&action={$smarty.request.action|escape}&start={$smarty.request.start|escape|default:"0" + $LIMIT}{if $FILTERS|default:""}{$FILTERS}{/if}"><i class="icon-right-open"></i></a>
-        </td>
-    </tbody>
-  </table>
-    <fieldset>
-      <label>Type</label>
-      {html_options name="filter[type]" options=$TRANSACTIONTYPES selected=$smarty.request.filter.type|default:""}
-    </fieldset>
-    <fieldset>
-      <label>Status</label>
-      {html_options name="filter[status]" options=$TXSTATUS selected=$smarty.request.filter.status|default:""}
-    </fieldset>
-    <fieldset>
-      <label>Account</label>
-      <input size="20" type="text" name="filter[account]" value="{$smarty.request.filter.account|default:""}" />
-    </fieldset>
-    <fieldset>
-      <label>Address</label>
-      <input size="20" type="text" name="filter[address]" value="{$smarty.request.filter.address|default:""}" />
-    </fieldset>
-    </div>
-  <footer>
-    <div class="submit_link">
-      <input type="submit" value="Filter" class="alt_btn">
-    </div>
-  </footer>
-</form>
-</article>
-
-<article class="module width_3_quarter">
+<article class="module width_full">
   <header><h3>Transaction History</h3></header>
     <table cellspacing="0" class="tablesorter" width="100%">
       <thead>
@@ -113,5 +67,5 @@
 {/section}
       </tbody>
     </table>
-    <footer><font size="1"><b>Credit_AP</b> = Auto Threshold Payment, <b>Credit_MP</b> = Manual Payment, <b>Donation</b> = Donation, <b>Fee</b> = Pool Fees (if applicable)</font></footer>
+    <footer><font size="1"><b>Credit_MP</b> = Payment, <b>Donation</b> = Donation</font></footer>
 </article>
