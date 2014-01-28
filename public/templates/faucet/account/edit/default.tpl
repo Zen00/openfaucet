@@ -27,10 +27,7 @@
 <fieldset>
 <label>Stash Balance</label>
 <font size="1">Return a selected amount of {$GLOBAL.config.currency} to an offsite wallet if there is more in the wallet than deemed safe for online storage.</font>
-      <fieldset>
         {nocache}<input type="text" value=""{if $GLOBAL.twofactor.enabled && $GLOBAL.twofactor.options.details && !$DETAILSUNLOCKED}disabled{/if}/>{/nocache}
-      </fieldset>
-    </div>
 </fieldset>
       <fieldset>
         <label>4 digit PIN</label>
