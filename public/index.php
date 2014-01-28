@@ -18,6 +18,9 @@ limitations under the License.
 
 */
 
+// Used for performance calculations
+$dStartTime = microtime(true);
+
 // This should be okay
 define("BASEPATH", dirname(__FILE__) . "/");
 
