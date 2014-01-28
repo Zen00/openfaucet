@@ -24,8 +24,6 @@
       {if !$GLOBAL.website.about.disabled}
       <li class="icon-doc"><a href="{$smarty.server.SCRIPT_NAME}?page=about&action=pool">About</a></li>
       {/if}
-    </ul>
-    <ul class="toggle">
       {if $smarty.session.AUTHENTICATED|default:"0" == 1}
       {if $GLOBAL.config.disable_contactform|default:"0" != 1}
       <li class="icon-mail"><a href="{$smarty.server.SCRIPT_NAME}?page=contactform">Contact</a></li>
