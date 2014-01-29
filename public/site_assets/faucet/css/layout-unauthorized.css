@@ -874,11 +874,11 @@ width:100%;
 }
 
 #main .payout_form {
-position:relative;
-left:50%;
-margin-left:-50%;
+position:absolute;
 }
 
 #main .donation_form {
-position:absolute;
+position:relative;
+left:50%;
+margin-left:-50%;
 }
