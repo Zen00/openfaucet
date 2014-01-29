@@ -1,5 +1,5 @@
-<div class="home_forms">
-<form class="payout_form" action="{$smarty.server.SCRIPT_NAME}" method="post">
+<div class="payout_form">
+<form action="{$smarty.server.SCRIPT_NAME}" method="post">
   <input type="hidden" name="page" value="{$smarty.request.page|escape}">
   <input type="hidden" name="action" value="{$smarty.request.action|escape}">
   <input type="hidden" name="do" value="requestPayout">
@@ -23,9 +23,9 @@
     </footer>
   </article>
 </form>
-
-
-<form class="donation_form" action="{$smarty.server.SCRIPT_NAME}" method="post">
+</div>
+<div class="donation_form">
+<form action="{$smarty.server.SCRIPT_NAME}" method="post">
   <input type="hidden" name="page" value="{$smarty.request.page|escape}">
   <input type="hidden" name="action" value="{$smarty.request.action|escape}">
   <input type="hidden" name="do" value="giveDonation">
