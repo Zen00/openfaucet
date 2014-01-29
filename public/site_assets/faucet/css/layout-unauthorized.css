@@ -326,11 +326,10 @@ margin-top: 20%;
 
 
 section#main {
-background: url("../images/sidebar_shadow.png") repeat-y scroll left top transparent;
 float: left;
 margin-top: -2px;
 min-height: 85%;
-width: 88%;
+width: 100%;
 }
 
 #main h3 {
