@@ -24,37 +24,6 @@
   </article>
 </form>
 </div>
-<div class="donation_form">
-<form action="{$smarty.server.SCRIPT_NAME}" method="post">
-  <input type="hidden" name="page" value="{$smarty.request.page|escape}">
-  <input type="hidden" name="action" value="{$smarty.request.action|escape}">
-  <input type="hidden" name="do" value="giveDonation">
-  <article class="module width_half">
-    <header><h3>Give a {$GLOBAL.config.currency} Donation</h3></header>
-    <div class="module_content">
-      <fieldset>
-        <label>Your Giving Address</label>
-        <input type="text" name="userGivingAddress" maxlength="64"/>
-      </fieldset>
-      <fieldset>
-        <label>Your Donation Total</label>
-        <input type="text" name="userGivingAmount" maxlength="12"/>
-      </fieldset>
-    </div>
-    <footer>
-      <div class="submit_link">
-      {nocache}
-        <input type="hidden" name="ctoken" value="{$CTOKEN|escape|default:""}" />
-        <input type="hidden" name="ea_token" value="{$smarty.request.ea_token|escape|default:""}">
-        <input type="hidden" name="utype" value="give_coin">
-        <input type="submit" value="Give {$GLOBAL.config.currency}" class="alt_btn">
-      {/nocache}
-      </div>
-    </footer>
-  </article>
-</form>
-</div>
-
 
 
 {section name=news loop=$NEWS}
