@@ -880,7 +880,5 @@ margin-left:-50%;
 }
 
 #main .donation_form {
-position:relative;
-left:50%;
-margin-left:-50%;
+position:absolute;
 }
