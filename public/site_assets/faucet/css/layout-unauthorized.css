@@ -876,10 +876,12 @@ width:100%;
 #main .payout_form {
 float:left;
 width:50%;
+margin: 0 auto;
 }
 
 #main .donation_form {
 float:left;
 clear:left;
 width:50%;
+margin: 0 auto;
 }
