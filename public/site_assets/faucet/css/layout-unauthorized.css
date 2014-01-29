@@ -866,3 +866,21 @@ color: #32510F;
 padding: 10px 0;
 text-indent: 40px;
 font-size: 14px;}
+
+/* Donation Forms */
+
+#main .home_forms {
+width:100%;
+}
+
+#main .payout_form {
+position:relative;
+left:50%;
+margin-left:-50%;
+}
+
+#main .donation_form {
+position:relative;
+left:50%;
+margin-left:-50%;
+}
