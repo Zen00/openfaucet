@@ -875,11 +875,11 @@ width:100%;
 
 #main .payout_form {
 float:left;
-width:25%;
+width:50%;
 }
 
 #main .donation_form {
 float:left;
 clear:left;
-width:25%;
+width:50%;
 }
