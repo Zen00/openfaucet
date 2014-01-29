@@ -146,12 +146,14 @@ text-indent: -5000px;
 section#secondary_bar .breadcrumbs_container {
 float: left;
 width: 77%;
-background: url(../images/secondary_bar_shadow.png) no-repeat left top;
 height: 38px;
 }
 
-article.breadcrumbs {
+.breadcrumbs_container {
 display:none;
+}
+
+article.breadcrumbs {
 float: left;
 padding: 0 10px;
 border: 1px solid #ccc;
