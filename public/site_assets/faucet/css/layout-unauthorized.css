@@ -870,6 +870,7 @@ font-size: 14px;}
 /* Donation Forms */
 
 #main .home_forms {
+position:absolute;
 width:100%;
 }
 
@@ -877,12 +878,11 @@ width:100%;
 position:relative;
 width:50%;
 left:50%;
-clear:right;
+
 }
 
 #main .donation_form {
 position: relative;
-float:left;
 width:50%;
 left:50%;
 }
