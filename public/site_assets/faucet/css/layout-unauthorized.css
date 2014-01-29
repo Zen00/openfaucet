@@ -870,18 +870,19 @@ font-size: 14px;}
 /* Donation Forms */
 
 #main .home_forms {
-width:100%;
+width:50%;
+height:33%;
+position:relative;
+margin: 0 auto;
 }
 
-#main .payout_form {
-float:left;
-width:50%;
-margin: 0 auto;
+#main .payout_form, .donation_form {
+top:300px;
+left:50%;
+position:absolute;
 }
 
 #main .donation_form {
-float:left;
-clear:left;
-width:50%;
-margin: 0 auto;
+position: relative;
+right:auto;
 }
