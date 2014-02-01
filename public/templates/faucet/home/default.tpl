@@ -4,7 +4,7 @@
   <input type="hidden" name="action" value="{$smarty.request.action|escape}">
   <input type="hidden" name="do" value="requestPayout">
   <article class="module width_half">
-    <header><h3>Request {$GLOBAL.config.payout} {$GLOBAL.config.currency}</h3></header>
+    <header><h3>Request {$GLOBAL.config.payout|number_format:"2"|default:"n/a"} {$GLOBAL.config.currency}</h3></header>
     <div class="module_content">
       <fieldset>
         <label>Your Reciept Address</label>
