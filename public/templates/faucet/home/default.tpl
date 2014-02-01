@@ -3,7 +3,7 @@
   <input type="hidden" name="page" value="{$smarty.request.page|escape}">
   <input type="hidden" name="action" value="{$smarty.request.action|escape}">
   <input type="hidden" name="do" value="requestPayout">
-  <article class="module width_quarter">
+  <article class="module width_full">
     <header><h3>Request {$GLOBAL.config.payout|number_format:"2"|default:"n/a"} {$GLOBAL.config.currency}</h3></header>
     <div class="module_content">
       <fieldset>
