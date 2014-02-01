@@ -102,6 +102,19 @@ $config['coldwallet']['reserve'] = 50;
 $config['coldwallet']['threshold'] = 5;
 
 /**
+ * Amount to give users
+ *
+ * Explanation:
+ *   Set this to the amount you want people to recieve of your coin on each payout request
+ *
+ * Default:
+ *   payout    :  1.0
+ *
+ */
+$config['payout'] = 1.0;
+
+
+/**
  * E-mail confirmations for user actions
  *
  * Explanation:
