@@ -1,7 +1,7 @@
 {if !$GLOBAL.website.about.disabled && $GLOBAL.config.disable_contactform|default:"0" != 1}    
 <p><strong>Visit</strong> the <a href="{$smarty.server.SCRIPT_NAME}?page=about&action=about">About</a> page to learn more about this currency, or <a href="{$smarty.server.SCRIPT_NAME}?page=contactform">Contact</a> us.</p>
 {/if}
-{if !$GLOBAL.website.about.disabled && $GLOBAL.config.disable_contactform|default:"0" = 1}    
+{if !$GLOBAL.website.about.disabled && $GLOBAL.config.disable_contactform|default:"0" == 1}    
 <p><strong>Visit</strong> the <a href="{$smarty.server.SCRIPT_NAME}?page=about&action=about">About</a> page to learn more about this currency.</p>
 {/if}
 {if $GLOBAL.website.about.disabled && $GLOBAL.config.disable_contactform|default:"0" != 1}    
