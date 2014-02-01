@@ -7,7 +7,7 @@
     <header><h3>Request {$GLOBAL.config.payout|number_format:"2"|default:"n/a"} {$GLOBAL.config.currency}</h3></header>
     <div class="module_content">
       <fieldset>
-        <label>Your Reciept Address</label>
+        <label>Your Receipt Address</label>
         <input type="text" name="userRecievingAddress" maxlength="64"/>
       </fieldset>
     </div>
