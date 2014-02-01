@@ -330,6 +330,7 @@ float: left;
 margin-top: -2px;
 min-height: 85%;
 width: 100%;
+text-align: center;
 }
 
 #main h3 {
@@ -870,6 +871,5 @@ font-size: 14px;}
 /* Donation Forms */
 
 #main .payout_container {
-width: 50%;
-margin: 0 auto;
+display: inline-block;
 }
