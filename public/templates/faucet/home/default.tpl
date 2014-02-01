@@ -1,4 +1,4 @@
-<div class="payout_container width_half">
+<div class="payout_container">
 <form action="{$smarty.server.SCRIPT_NAME}" method="post">
   <input type="hidden" name="page" value="{$smarty.request.page|escape}">
   <input type="hidden" name="action" value="{$smarty.request.action|escape}">

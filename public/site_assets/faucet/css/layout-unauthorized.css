@@ -870,7 +870,6 @@ font-size: 14px;}
 /* Donation Forms */
 
 #main .payout_container {
-position:relative;
-float: none;
+width: 50%;
 margin: 0 auto;
 }
