@@ -9,24 +9,18 @@
         <label>Username</label>
         <input type="text" value="{$GLOBAL.userdata.username|escape}" disabled />
       </fieldset>
-      {if !$GLOBAL.website.api.disabled}
-      <fieldset>
-        <label>API Key</label>
-        <a href="{$smarty.server.SCRIPT_NAME}?page=api&action=getuserstatus&api_key={$GLOBAL.userdata.api_key}&id={$GLOBAL.userdata.id}">{$GLOBAL.userdata.api_key}</a>
-      </fieldset>
-      {/if}
       <fieldset>
         <label>E-Mail</label>
         {nocache}<input type="text" name="email" value="{$GLOBAL.userdata.email|escape}" size="20" {if $GLOBAL.twofactor.enabled && $GLOBAL.twofactor.options.details && !$DETAILSUNLOCKED}disabled{/if}/>{/nocache}
       </fieldset>
       <fieldset>
-        <label>Stash Address</label>
+        <label>Cold Stash Address</label>
         {nocache}<input type="text" name="paymentAddress" value="{$smarty.request.paymentAddress|default:$GLOBAL.userdata.coin_address|escape}" size="40"  {if $GLOBAL.twofactor.enabled && $GLOBAL.twofactor.options.details && !$DETAILSUNLOCKED}disabled{/if}/>{/nocache}
       </fieldset>
 	    
 <fieldset>
-<label>Stash Balance</label>
-<font size="1">Return a selected amount of {$GLOBAL.config.currency} to an offsite wallet if there is more in the wallet than deemed safe for online storage.</font>
+<label>Total to Stash</label>
+<font size="1">Return a selected amount of {$GLOBAL.config.currency} to an offsite wallet</font>
         {nocache}<input type="text" value=""{if $GLOBAL.twofactor.enabled && $GLOBAL.twofactor.options.details && !$DETAILSUNLOCKED}disabled{/if}/>{/nocache}
 </fieldset>
       <fieldset>

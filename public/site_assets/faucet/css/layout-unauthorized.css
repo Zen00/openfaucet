@@ -690,6 +690,7 @@ font-weight: bold;
 padding-left: 10px;
 margin: -5px 0 5px 0;
 text-transform: uppercase;
+text-align:left;
 }
 
 fieldset input[type=text], fieldset input[type=email], fieldset input[type=password] {
@@ -872,8 +873,4 @@ font-size: 14px;}
 
 #main .payout_container {
 display: inline-block;
-}
-
-#main .payout_container fieldset label{
-text-align:left;
 }
