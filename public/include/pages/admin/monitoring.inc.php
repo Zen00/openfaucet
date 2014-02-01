@@ -10,20 +10,7 @@ if (!$user->isAuthenticated() || !$user->isAdmin($_SESSION['USERDATA']['id'])) {
 }
 
 // Default crons to monitor
-$aCrons = array('statistics','payouts','token_cleanup','archive_cleanup','blockupdate','findblock','notifications','tickerupdate','liquid_payout');
-
-// Special cases, only add them if activated
-switch ($config['payout_system']) {
-case 'pplns':
-  $aCrons[] = $config['payout_system'] . '_payout';
-  break;
-case 'pps':
-  $aCrons[] = $config['payout_system'] . '_payout';
-  break;
-case 'prop':
-  $aCrons[] = 'proportional_payout';
-  break;
-}
+$aCrons = array('statistics','payouts','token_cleanup');
 
 // Data array for template
 foreach ($aCrons as $strCron) {
