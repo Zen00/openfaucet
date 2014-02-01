@@ -879,8 +879,6 @@ display: inline-block;
 .footer {
 height:65px;
 background-image:url('../images/header_bg.png');
-}
-
-.footer #debug {
-display:none;
+padding:0;
+margin:0;
 }
