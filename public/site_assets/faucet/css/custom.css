@@ -1,4 +1,4 @@
-﻿/* Custom stuff */
+/* Custom stuff */
 span.ur-status-up {
   text-align: center;
   display: inline-block;
@@ -161,12 +161,12 @@ span.toggle {
   margin: 0 auto;
 }
 
-:root input[type=checkbox] {
+:root input[type="checkbox"] {
   position: absolute;
   opacity: 0;
 }
 
-:root input[type=checkbox].ios-switch + div {
+:root input[type="checkbox"].ios-switch + div {
   display: inline-block;
   vertical-align: middle;
   width: 3em;	height: 1em;
@@ -188,42 +188,44 @@ span.toggle {
   font-size: 150%;
 }
 
-:root input[type=checkbox].ios-switch:checked + div {
+:root input[type="checkbox"].ios-switch:checked + div {
   padding-left: 2em;	width: 1em;
   background-position: 0 0;
 }
 
-:root input[type=checkbox].ios-switch + div:before {
-  background-position: 0% 0%;
-	content: 'On';
-    float: left;
-    width: 1.65em; height: 1.65em;
-    margin: -.1em;
-    border: 1px solid rgba(0,0,0,.35);
-    color: white;
-	text-indent: -2.5em;
-	background-image: linear-gradient(rgba(0,0,0,.2), transparent);
-	background-color: white;
-	background-repeat: repeat;
-	background-attachment: scroll;
+:root input[type="checkbox"].ios-switch + div:before {
+  content: 'On';
+  float: left;
+  width: 1.65em; height: 1.65em;
+  margin: -.1em;
+  border: 1px solid rgba(0,0,0,.35);
+  border-radius: inherit;
+  background: white;
+  background-image: linear-gradient(rgba(0,0,0,.2), transparent);
+  box-shadow: 0 .1em .1em .1em hsla(0,0%,100%,.8) inset,
+  0 0 .5em rgba(0,0,0,.3);
+  color: white;
+  text-shadow: 0 -1px 1px rgba(0,0,0,.3);
+  text-indent: -2.5em;
 }
 
-:root input[type=checkbox].ios-switch:active + div:before {
+:root input[type="checkbox"].ios-switch:active + div:before {
   background-color: #eee;
 }
 
-:root input[type=checkbox].ios-switch:focus + div {
+:root input[type="checkbox"].ios-switch:focus + div {
   box-shadow: 0 .1em .1em rgba(0,0,0,.2) inset,
   0 .45em 0 .1em rgba(0,0,0,.05) inset,
   0 0 .4em 1px rgba(255,0,0,.5);
 }
 
-:root input[type=checkbox].ios-switch + div:before, :root input[type=checkbox].ios-switch + div:after {
+:root input[type="checkbox"].ios-switch + div:before,
+:root input[type="checkbox"].ios-switch + div:after {
   font: bold 60%/1.9 sans-serif;
   text-transform: uppercase;
 }
 
-:root input[type=checkbox].ios-switch + div:after {
+:root input[type="checkbox"].ios-switch + div:after {
   content: 'Off';
   float: left;
   text-indent: .5em;
@@ -238,6 +240,7 @@ footer.footer {
   height: 60px;
   margin-top: -60px;
   position: relative;
+  padding: 4px 0px 0px 0px;
   background:url("../images/header_bg.png") repeat-x scroll 0% 0% rgb(34, 34, 34);
   font-size:11px;
   width:100%;
