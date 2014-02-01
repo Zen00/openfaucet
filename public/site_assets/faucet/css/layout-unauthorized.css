@@ -872,5 +872,8 @@ font-size: 14px;}
 
 #main .payout_container {
 display: inline-block;
-width:35%;
+}
+
+#main .payout_container fieldset label{
+text-align:left;
 }
