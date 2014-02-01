@@ -370,7 +370,7 @@ border-top-left-radius: 5px; border-top-right-radius: 5px;
 }
 
 .module footer {
-height: 32px;
+height: 40px;
 width: 100%;
 border-top: 1px solid #9CA1B0;
 background: #F1F1F4 url(../images/module_footer_bg.png) repeat-x;
