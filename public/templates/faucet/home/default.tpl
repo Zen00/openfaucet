@@ -1,9 +1,9 @@
-<div class="payout_form">
+<div class="payout_container width_quarter">
 <form action="{$smarty.server.SCRIPT_NAME}" method="post">
   <input type="hidden" name="page" value="{$smarty.request.page|escape}">
   <input type="hidden" name="action" value="{$smarty.request.action|escape}">
   <input type="hidden" name="do" value="requestPayout">
-  <article class="module width_half">
+  <article class="module width_quarter">
     <header><h3>Request {$GLOBAL.config.payout|number_format:"2"|default:"n/a"} {$GLOBAL.config.currency}</h3></header>
     <div class="module_content">
       <fieldset>
