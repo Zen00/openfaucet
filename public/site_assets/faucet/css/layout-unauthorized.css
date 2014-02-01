@@ -874,3 +874,9 @@ font-size: 14px;}
 #main .payout_container {
 display: inline-block;
 }
+
+/* Footer */
+.footer {
+height:65px;
+background-image:url('../images/header_bg.png')
+}
