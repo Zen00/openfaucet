@@ -6,6 +6,9 @@ if (!defined('SECURITY')) die('Hacking attempt');
 // Include markdown library
 use \Michelf\Markdown;
 
+// Display the payout amount
+$smarty->assign("PAYOUT", $config['payout']);
+
 if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
   $debug->append('No cached version available, fetching from backend', 3);
   // Fetch active news to display
