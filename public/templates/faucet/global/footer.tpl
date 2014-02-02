@@ -1,8 +1,8 @@
 {if !$GLOBAL.website.about.disabled && $GLOBAL.config.disable_contactform|default:"0" != 1}    
-<p><strong>Visit</strong> the <a href="{$smarty.server.SCRIPT_NAME}?page=about&action=about">About</a> page to learn more about {$GLOBAL.config.currency}, or <a href="{$smarty.server.SCRIPT_NAME}?page=contactform">Contact</a> us.</p>
+<p><strong>Visit</strong> the <a href="{$smarty.server.SCRIPT_NAME}?page=about">About</a> page to learn more about {$GLOBAL.config.currency}, or <a href="{$smarty.server.SCRIPT_NAME}?page=contactform">Contact</a> us.</p>
 {/if}
 {if !$GLOBAL.website.about.disabled && $GLOBAL.config.disable_contactform|default:"0" == 1}    
-<p><strong>Visit</strong> the <a href="{$smarty.server.SCRIPT_NAME}?page=about&action=about">About</a> page to learn more about {$GLOBAL.config.currency}.</p>
+<p><strong>Visit</strong> the <a href="{$smarty.server.SCRIPT_NAME}?page=about">About</a> page to learn more about {$GLOBAL.config.currency}.</p>
 {/if}
 {if $GLOBAL.website.about.disabled && $GLOBAL.config.disable_contactform|default:"0" != 1}    
 <p>We would love your feedback, please <a href="{$smarty.server.SCRIPT_NAME}?page=contactform">Contact</a> us.</p>
