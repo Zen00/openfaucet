@@ -1,23 +1,17 @@
 <div class="payout_container">
 <form action="{$smarty.server.SCRIPT_NAME}" method="post">
-  <input type="hidden" name="page" value="{$smarty.request.page|escape}">
-  <input type="hidden" name="action" value="{$smarty.request.action|escape}">
-  <input type="hidden" name="do" value="requestPayout">
   <article class="module width_full">
     <header><h3>Request {$GLOBAL.config.payout|number_format:"2"|default:"n/a"} {$GLOBAL.config.currency}</h3></header>
     <div class="module_content">
       <fieldset>
         <label>Your Receipt Address</label>
-        <input type="text" name="userRecievingAddress" maxlength="64"/>
+        <input type="text" name="userAddress" maxlength="64"/>
       </fieldset>
     </div>
     <footer>
       <div class="submit_link">
       {nocache}
-        <input type="hidden" name="ctoken" value="{$CTOKEN|escape|default:""}" />
-        <input type="hidden" name="ea_token" value="{$smarty.request.ea_token|escape|default:""}">
-        <input type="hidden" name="utype" value="request_coin">
-        <input type="submit" value="Request {$GLOBAL.config.currency}" class="alt_btn">
+      <input type="submit" value="Request {$GLOBAL.config.currency}" class="alt_btn">
       {/nocache}
       </div>
     </footer>
