@@ -52,4 +52,8 @@ class User extends Base {
   }
 }
 
-?>
+// Make our class available automatically
+$faucetusers = new Faucetuser();
+$faucetusers->setMysql($mysqli);
+$faucetusers->setDebug($debug);
+$faucetusers->setErrorCodes($aErrorCodes);
