@@ -47,12 +47,12 @@ require_once(CLASS_DIR . '/block.class.php');
 
 // We require the block class to properly grab the round ID
 require_once(CLASS_DIR . '/statscache.class.php');
-
 require_once(CLASS_DIR . '/bitcoin.class.php');
 require_once(CLASS_DIR . '/bitcoinwrapper.class.php');
 require_once(CLASS_DIR . '/monitoring.class.php');
 require_once(CLASS_DIR . '/notification.class.php');
 require_once(CLASS_DIR . '/user.class.php');
+require_once(CLASS_DIR . '/faucetusers.class.php');
 require_once(CLASS_DIR . '/csrftoken.class.php');
 require_once(CLASS_DIR . '/invitation.class.php');
 require_once(CLASS_DIR . '/share.class.php');
