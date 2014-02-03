@@ -7,21 +7,16 @@ if (!defined('SECURITY'))
 class User extends Base {
   protected $table = 'users';
   
-  // get and set methods
-
-
   /**
    * Log the information from a user faucet request
    * @param userID int User ID
-   * 
-   *
    **/
   public function logUser() {
     $userIP = getCurrentIP();
     $userAddress = $_POST['userAddress'];
     $mysqli->bind_param('ss',$userAddress,$userIP);
-    $mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?);
-  }
+    $mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
+}
   
   /**
    * Convenience function to get IP address, no params is the same as REMOTE_ADDR
