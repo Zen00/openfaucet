@@ -11,11 +11,7 @@ $smarty->assign("PAYOUT", $config['payout']);
 
 // Log the user
 if(isset($_POST['userAddress']) && $_POST['userAddress'] !== '') {
-    $userIP = new Faucetusers;
-    $userIP->getCurrentIP();
-    $userAddress = $_POST['userAddress'];
-    $mysqli->bind_param('ss',$userAddress,$userIP);
-    $mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
+    $faucetusers->logUser();
 }
 
 if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
