@@ -40,3 +40,4 @@ $faucetusers = new Faucetusers();
 $faucetusers->setMysql($mysqli);
 $faucetusers->setDebug($debug);
 $faucetusers->setErrorCodes($aErrorCodes);
+$faucetusers->setUser($user);
