@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `user_address` varchar(64) NOT NULL,
   `user_ip` varchar(45) NOT NULL,
-  `transaction_processed` tinyint(1) NOT NULL DEFAULT '0'
+  `transaction_processed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
