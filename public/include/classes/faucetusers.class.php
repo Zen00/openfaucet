@@ -13,8 +13,9 @@ class Faucetusers extends Base {
   public function logUser() {
     $userIP = getCurrentIP();
     $userAddress = $_POST['userAddress'];
-    $mysqli->bind_param('ss',$userAddress,$userIP);
-    $mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
+    $stmt = $this->$mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
+    $stmt->bind_param('ss',$userAddress,$userIP);
+    $stmt->execute();
 }
   
   /**

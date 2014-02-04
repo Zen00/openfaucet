@@ -11,7 +11,7 @@ $smarty->assign("PAYOUT", $config['payout']);
 
 // Log the user
 if(isset($_POST['userAddress']) && $_POST['userAddress'] !== '') {
-    $userIP = new Faucetuser;
+    $userIP = new Faucetusers;
     $userIP->getCurrentIP();
     $userAddress = $_POST['userAddress'];
     $mysqli->bind_param('ss',$userAddress,$userIP);
