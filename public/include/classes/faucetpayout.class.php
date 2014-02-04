@@ -55,7 +55,7 @@ class Payout Extends Base {
   }
 }
 
-$oFaucetpayout = new Payout();
+$oFaucetpayout = new Faucetpayout();
 $oFaucetpayout->setDebug($debug);
 $oFaucetpayout->setMysql($mysqli);
 $oFaucetpayout->setErrorCodes($aErrorCodes);

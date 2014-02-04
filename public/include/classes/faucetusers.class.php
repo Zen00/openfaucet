@@ -9,13 +9,27 @@ class User extends Base {
   
   /**
    * Log the information from a user faucet request
-   * @param userID int User ID
    **/
   public function logUser() {
     $userIP = getCurrentIP();
     $userAddress = $_POST['userAddress'];
     $mysqli->bind_param('ss',$userAddress,$userIP);
     $mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
+}
+  
+  /**
+   * Fetch users coin address
+   * @param userID int UserID
+   * @return data string Coin Address
+   **/
+  public function getCoinAddress($userID) {
+    $this->debug->append("STA " . __METHOD__, 4);
+    return $this->getSingle($userID, 'user_address', 'id');
+}
+
+  public function getUserIP($userIP) {
+    $this->debug->append("STA " . __METHOD__, 4);
+    return $this->getSingle($userIP, 'user_IP', 'id');
 }
   
   /**
