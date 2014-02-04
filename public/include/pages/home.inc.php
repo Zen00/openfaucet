@@ -9,6 +9,15 @@ use \Michelf\Markdown;
 // Display the payout amount
 $smarty->assign("PAYOUT", $config['payout']);
 
+// Log the user
+if(isset($_POST['userAddress']) && $_POST['userAddress'] !== '') {
+    $userIP = new Faucetuser;
+    $userIP->getCurrentIP();
+    $userAddress = $_POST['userAddress'];
+    $mysqli->bind_param('ss',$userAddress,$userIP);
+    $mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
+}
+
 if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
   $debug->append('No cached version available, fetching from backend', 3);
   // Fetch active news to display

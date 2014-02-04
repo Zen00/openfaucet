@@ -3,7 +3,7 @@
 // Make sure we are called from index.php
 if (!defined('SECURITY')) die('Hacking attempt');
 
-class Payout Extends Base {
+class Faucetpayout Extends Base {
   protected $table = 'users';
 
   /**
@@ -23,7 +23,7 @@ class Payout Extends Base {
    * @param user_ip str User IP
    * @return boolean bool True of False
    **/
-  public function isPayoutActive($userIP) {
+  public function isUserReturning($userIP) {
     $stmt = $this->mysqli->prepare("SELECT user_ip FROM $this->table LIMIT 1");
     if ($stmt && $stmt->bind_param('i', $user_ip) && $stmt->execute( )&& $stmt->store_result() && $stmt->num_rows > 0)
       return true;

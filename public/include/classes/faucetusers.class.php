@@ -4,7 +4,7 @@
 if (!defined('SECURITY'))
   die('Hacking attempt');
 
-class User extends Base {
+class Faucetusers extends Base {
   protected $table = 'users';
   
   /**
@@ -67,7 +67,7 @@ class User extends Base {
 }
 
 // Make our class available automatically
-$faucetusers = new Faucetuser();
+$faucetusers = new Faucetusers();
 $faucetusers->setMysql($mysqli);
 $faucetusers->setDebug($debug);
 $faucetusers->setErrorCodes($aErrorCodes);
