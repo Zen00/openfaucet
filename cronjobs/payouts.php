@@ -76,9 +76,10 @@ if ($setting->getValue('disable_manual_payouts') != 1) {
               $monitoring->endCronjob($cron_name, 'E0078', 1, true);
             }
             // Update our transaction and add the RPC Transaction ID
-            if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
-              $log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $tx_id . ': ' . $transaction->getCronError());
-          } else {
+        if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
+          $log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ': ' . $transaction->getCronError());
+      }          
+      } else {
             $log->logFatal('Failed to add new Debit_MP transaction in database for user ' . $aData['id'] . ' ERROR: ' . $transaction->getCronError());
             $monitoring->endCronjob($cron_name, 'E0064', 1, true);
           }
