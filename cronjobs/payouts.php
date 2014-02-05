@@ -55,7 +55,7 @@ if (count($uPayout) > 0) {
 		// Validate address against RPC
 		if ($bitcoin->validateaddress($uData['user_address'])) {
 		
-			$log->logInfo('Starting payout for user' . $uData['id'] . ' with address ' . $uData['user_address']);
+			$log->logInfo('Starting payout for user ' . $uData['id']);
 			
 			// Mark transaction completed
 			if (!$oFaucetpayout->setProcessed($uData['id'])) {
