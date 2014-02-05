@@ -64,7 +64,7 @@ if ($setting->getValue('disable_manual_payouts') != 1) {
             // Store debit transaction ID for later update
             $transaction_id = $transaction->insert_id;
             // Mark all older transactions as archived
-            if (!$transaction->setArchived($aData['account_id'], $transaction->insert_id))
+            if (!$transaction->setArchived($aData['id'], $transaction->insert_id))
               $log->logError('Failed to mark transactions for #' . $aData['id'] . ' prior to #' . $transaction->insert_id . ' as archived. ERROR: ' . $transaction->getCronError());
             // Run the payouts from RPC now that the user is fully debited
             try {
