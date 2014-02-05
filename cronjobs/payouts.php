@@ -89,6 +89,9 @@ if (count($aPayouts) > 0) {
 			if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
 				$log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ' Error: ' . $transaction->getCronError());
 		}
+		
+		// Log completion
+		$log->logInfo('Completed payout successfully for user ' . $aData['id'] . ' with IP ' . $aData['user_ip'] . ' and address ' . $aData['user_address']); 
 	}
 	
 // Ending logs
