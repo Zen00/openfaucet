@@ -17,12 +17,14 @@ class Faucetusers extends Base {
 			$stmt = $this->mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
 			$stmt->bind_param('ss',$userAddress,$userIP);
 			$stmt->execute();
+		} else {
+		$_SESSION['POPUP'][] = array('CONTENT' => "There has already been a request from your location today, please wait 24 hours between submissions", 'TYPE' => 'info');
 		}
 	}
 	
 	public function checkUserIP($userIP) {
 		$this->debug->append("STA " . __METHOD__, 4);
-		$stmt = $this->mysqli->prepare("SELECT COUNT(*) FROM $this->table WHERE user_ip = ? LIMIT 1");
+		$stmt = $this->mysqli->prepare("SELECT COUNT(*) FROM $this->table WHERE user_ip = ?");
 		if ($this->checkStmt($stmt)) {
 			$stmt->bind_param("s", $userIP);
 			$stmt->execute();
