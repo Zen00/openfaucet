@@ -91,12 +91,8 @@ if (count($aPayouts) > 0) {
 			}
 				
 			// Update our transaction and add the RPC Transaction ID
-			if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid)) {
-				$log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ': ' . $transaction->getCronError());
-			} else {
-				$log->logFatal('Failed to add new Debit_MP transaction in database for user ' . $aData['id'] . ' ERROR: ' . $transaction->getCronError());
-				$monitoring->endCronjob($cron_name, 'E0064', 1, true);
-			}
+			if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
+				$log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ' Error: ' . $transaction->getCronError());
 		}
 	}
 	
