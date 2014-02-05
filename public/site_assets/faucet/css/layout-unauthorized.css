@@ -872,11 +872,25 @@ font-size: 14px;}
 /* Donation Forms */
 
 #main .payout_container {
-display: inline-block;
+    background-color: #000000;
+    margin: 0 auto;
+    width: 1000px;
 }
 
-/* Footer */
 .footer {
-height:60px;
-background-image:url('../images/header_bg.png');
+    background-image: url("../images/header_bg.png");
+    height: 60px;
+}
+
+#main .payout_form {
+    display: inline-block;
+    margin: 0 auto;
+    width: 450px;
+}
+
+#main .width_half {
+    display: inline-block;
+    margin: 15px auto;
+    width: 900px;
+    float: none;
 }

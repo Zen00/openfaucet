@@ -1,5 +1,5 @@
 <div class="payout_container">
-<form action="{$smarty.server.SCRIPT_NAME}" method="post">
+<form action="{$smarty.server.SCRIPT_NAME}" method="post" class="payout_form">
   <article class="module width_full">
     <header><h3>Request {$GLOBAL.config.payout|number_format:"2"|default:"n/a"} {$GLOBAL.config.currency}</h3></header>
     <div class="module_content">
@@ -17,7 +17,7 @@
     </footer>
   </article>
 </form>
-</div>
+
 
 
 {section name=news loop=$NEWS}
@@ -29,3 +29,4 @@
       </div>
     </article>
 {/section}
+</div>
