@@ -53,45 +53,46 @@ if (count($aPayouts) > 0) {
 		$rpc_txid = NULL;
 		
 		// Validate address against RPC
-		if (!$bitcoin->validateaddress($aData['user_address'])) {
+		if ($bitcoin->validateaddress($aData['user_address'])) {
+		
+			// To ensure we don't run this transaction again, lets mark it completed
+			if (!$oFaucetpayout->setProcessed($aData['id'])) {
+				$log->logFatal('unable to mark transaction ' . $aData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
+				$monitoring->endCronjob($cron_name, 'E0010', 1, true);
+			}
+			
+			// Create a new transaction in the table
+			if ($transaction->addTransaction($aData['id'], $config['payout'], 'Debit_MP', NULL, $aData['user_address'], NULL)) {
+				
+				// Store debit transaction ID for later update
+				$transaction_id = $transaction->insert_id;
+				
+				// Mark all older transactions as archived
+				if (!$transaction->setArchived($aData['id'], $transaction->insert_id))
+					$log->logError('Failed to mark transactions for #' . $aData['id'] . ' prior to #' . $transaction->insert_id . ' as archived. ERROR: ' . $transaction->getCronError());
+				
+				// Run the payouts from RPC now that the user is fully debited
+				try {
+					$rpc_txid = $bitcoin->sendtoaddress($aData['user_address'], $config['payout']);
+				} catch (Exception $e) {
+					$log->logError('E0078: RPC method did not return 200 OK: Address: ' . $aData['user_address'] . ' ERROR: ' . $e->getMessage());
+					// Remove the line below if RPC calls are failing but transactions are still being added
+					// Can cause serious issues after commenting this out!
+					$monitoring->endCronjob($cron_name, 'E0078', 1, true);
+				}
+					
+				// Update transaction and add the RPC Transaction ID
+				if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
+					$log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ' Error: ' . $transaction->getCronError());
+			}
+			
+			// Log completion
+			$log->logInfo('Completed payout successfully for user ' . $aData['id'] . ' with IP ' . $aData['user_ip'] . ' and address ' . $aData['user_address']); 
+
+		} else {
 			$log->logError('Failed to verify the coin address for user ' . $aData['id'] . ', skipping payout.');
 			$oFaucetpayout->setProcessed($aData['id']);
-			continue;
 		}
-		
-		// To ensure we don't run this transaction again, lets mark it completed
-		if (!$oFaucetpayout->setProcessed($aData['id'])) {
-			$log->logFatal('unable to mark transaction ' . $aData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
-			$monitoring->endCronjob($cron_name, 'E0010', 1, true);
-		}
-		
-		// Create a new transaction in the table
-		if ($transaction->addTransaction($aData['id'], $config['payout'], 'Debit_MP', NULL, $aData['user_address'], NULL)) {
-			
-			// Store debit transaction ID for later update
-			$transaction_id = $transaction->insert_id;
-			
-			// Mark all older transactions as archived
-			if (!$transaction->setArchived($aData['id'], $transaction->insert_id))
-				$log->logError('Failed to mark transactions for #' . $aData['id'] . ' prior to #' . $transaction->insert_id . ' as archived. ERROR: ' . $transaction->getCronError());
-			
-			// Run the payouts from RPC now that the user is fully debited
-			try {
-				$rpc_txid = $bitcoin->sendtoaddress($aData['user_address'], $config['payout']);
-			} catch (Exception $e) {
-				$log->logError('E0078: RPC method did not return 200 OK: Address: ' . $aData['user_address'] . ' ERROR: ' . $e->getMessage());
-				// Remove this line below if RPC calls are failing but transactions are still added to it
-				// Don't blame MPOS if you run into issues after commenting this out!
-				$monitoring->endCronjob($cron_name, 'E0078', 1, true);
-			}
-				
-			// Update our transaction and add the RPC Transaction ID
-			if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
-				$log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ' Error: ' . $transaction->getCronError());
-		}
-		
-		// Log completion
-		$log->logInfo('Completed payout successfully for user ' . $aData['id'] . ' with IP ' . $aData['user_ip'] . ' and address ' . $aData['user_address']); 
 	}
 	
 } else if (empty($aPayouts)) {
