@@ -55,7 +55,7 @@ if (count($aPayouts) > 0) {
 		// Validate address against RPC
 		if (!$bitcoin->validateaddress($aData['user_address'])) {
 			$log->logError('Failed to verify the coin address for user ' . $aData['id'] . ', skipping payout.');
-			$oFaucetpayout->setProcessed($aData['id']
+			$oFaucetpayout->setProcessed($aData['id']);
 			continue;
 		}
 		
