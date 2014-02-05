@@ -55,7 +55,7 @@ if (count($aPayouts) > 0) {
 		// Validate address against RPC
 		if (!$bitcoin->validateaddress($aData['user_address'])) {
 			$log->logError('Failed to verify the coin address for user ' . $aData['id'] . ', skipping payout.');
-			$oFaucetpayout->setProcessed($aData['id'];
+			$oFaucetpayout->setProcessed($aData['id']
 			continue;
 		}
 		
@@ -94,9 +94,6 @@ if (count($aPayouts) > 0) {
 		$log->logInfo('Completed payout successfully for user ' . $aData['id'] . ' with IP ' . $aData['user_ip'] . ' and address ' . $aData['user_address']); 
 	}
 	
-// Ending logs
-	$log->logInfo("Completed payout cron successfully!");
-
 } else if (empty($aPayouts)) {
 	$log->logInfo("Stopping payout cron. No payout requests found.");
 } else {
