@@ -53,14 +53,9 @@ if (count($aPayouts) > 0) {
 		$rpc_txid = NULL;
 		
 		// Validate address against RPC
-		try {
-			$aStatus = $bitcoin->validateaddress($aData['user_address']);
-			if (!$aStatus['isvalid']) {
-				$log->logError('User: ' . $aData['id'] . ' - Failed to verify this users coin address, skipping payout');
-				continue;
-			}
-		} catch (Exception $e) {
-			$log->logError('User: ' . $aData['id'] . ' - Failed to verify this users coin address, skipping payout');
+		if (!$bitcoin->validateaddress($aData['user_address'])) {
+			$log->logError('Failed to verify the coin address for user ' . $aData['id'] . ', skipping payout.');
+			$oFaucetpayout->setProcessed($aData['id'];
 			continue;
 		}
 		
@@ -105,7 +100,6 @@ if (count($aPayouts) > 0) {
 	$log->logFatal("Failed processing payment queue! ...Aborting...");
 	$monitoring->endCronjob($cron_name, 'E0050', 1, true);
 }
-
 
 // Cron cleanup and monitoring
 require_once('cron_end.inc.php');
