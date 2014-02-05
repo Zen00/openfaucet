@@ -22,18 +22,15 @@ class Faucetusers extends Base {
 	
 	public function checkUserIP($userIP) {
 		$this->debug->append("STA " . __METHOD__, 4);
-		$stmt = $this->mysqli->prepare("SELECT * FROM $this->table WHERE user_ip = ? LIMIT 1");
+		$stmt = $this->mysqli->prepare("SELECT COUNT(*) FROM $this->table WHERE user_ip = ? LIMIT 1");
 		if ($this->checkStmt($stmt)) {
 			$stmt->bind_param("s", $userIP);
 			$stmt->execute();
 			$stmt->bind_result($retval);
 			$stmt->fetch();
 			$stmt->close();
-			if (empty($retval) {
+			if ($retval == 0)
 				return true;
-			}
-		} else {
-			return false;
 		}
 		return false;
 	}
