@@ -48,7 +48,7 @@ class Faucetpayout Extends Base {
    * @return boolean bool True or False
    **/
   public function setProcessed($id) {
-    $stmt = $this->mysqli->prepare("UPDATE $this->table SET completed = 1 WHERE id = ? LIMIT 1");
+    $stmt = $this->mysqli->prepare("UPDATE $this->table SET transaction_processed = 1 WHERE id = ? LIMIT 1");
     if ($stmt && $stmt->bind_param('i', $id) && $stmt->execute())
       return true;
     return $this->sqlError('E0051');

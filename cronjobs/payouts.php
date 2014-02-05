@@ -56,7 +56,7 @@ if ($setting->getValue('disable_manual_payouts') != 1) {
         }
           // To ensure we don't run this transaction again, lets mark it completed
           if (!$oFaucetpayout->setProcessed($aData['id'])) {
-            $log->logFatal('unable to mark transactions ' . $aData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
+            $log->logFatal('unable to mark transaction ' . $aData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
             $monitoring->endCronjob($cron_name, 'E0010', 1, true);
           }
           $log->logInfo("\t" . $aData['id'] . "\t\t" . $aData['user_ip'] . "\t\t" . $aData['user_address']);
