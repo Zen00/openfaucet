@@ -13,7 +13,7 @@ class Faucetusers extends Base {
 	public function logUser() {
 		$userIP = $this->user->getCurrentIP();
 		$userAddress = $_POST['userAddress'];
-		if (!$bitcoin->validateaddress($userAddress) {
+		if (!$bitcoin->validateaddress($userAddress)) {
 			$_SESSION['POPUP'][] = array('CONTENT' => "There's been a problem, your address doesn't match the format for " . $config['payout'] . ". Please try again with another address.", 'TYPE' => 'info');
 			return false;
 		}
