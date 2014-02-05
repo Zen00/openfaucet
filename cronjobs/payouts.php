@@ -43,18 +43,15 @@ if ($setting->getValue('disable_manual_payouts') != 1) {
       foreach ($aPayouts as $aData) {
         $transaction_id = NULL;
         $rpc_txid = NULL;
-        $aBalance = $GLOBAL.config.payout;
-        $aData['coin_address'] = $faucetusers->getCoinAddress($aData['account_id']);
-        $aData['user_ip'] = $faucetusers->getUserIP($aData['account_id']);
         // Validate address against RPC
         try {
-          $aStatus = $bitcoin->validateaddress($aData['coin_address']);
+          $aStatus = $bitcoin->validateaddress($aData['user_address']);
           if (!$aStatus['isvalid']) {
-            $log->logError('User: ' . $aData['username'] . ' - Failed to verify this users coin address, skipping payout');
+            $log->logError('User: ' . $aData['id'] . ' - Failed to verify this users coin address, skipping payout');
             continue;
           }
         } catch (Exception $e) {
-          $log->logError('User: ' . $aData['username'] . ' - Failed to verify this users coin address, skipping payout');
+          $log->logError('User: ' . $aData['id'] . ' - Failed to verify this users coin address, skipping payout');
           continue;
         }
           // To ensure we don't run this transaction again, lets mark it completed
@@ -62,20 +59,18 @@ if ($setting->getValue('disable_manual_payouts') != 1) {
             $log->logFatal('unable to mark transactions ' . $aData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
             $monitoring->endCronjob($cron_name, 'E0010', 1, true);
           }
-          $log->logInfo("\t" . $aData['account_id'] . "\t\t" . $aData['user_ip'] . "\t\t" . $aData['coin_address']);
-          if ($transaction->addTransaction($aData['account_id'], $GLOBAL.config.payout, 'Debit_MP', NULL, $aData['coin_address'], NULL)) {
+          $log->logInfo("\t" . $aData['id'] . "\t\t" . $aData['user_ip'] . "\t\t" . $aData['user_address']);
+          if ($transaction->addTransaction($aData['id'], $config['payout'], 'Debit_MP', NULL, $aData['user_address'], NULL)) {
             // Store debit transaction ID for later update
             $transaction_id = $transaction->insert_id;
-            if (!$transaction->addTransaction($aData['account_id'], '0', 'TXFee', NULL, $aData['coin_address']))
-              $log->logError('Failed to add TXFee record: ' . $transaction->getCronError());
             // Mark all older transactions as archived
             if (!$transaction->setArchived($aData['account_id'], $transaction->insert_id))
-              $log->logError('Failed to mark transactions for #' . $aData['account_id'] . ' prior to #' . $transaction->insert_id . ' as archived. ERROR: ' . $transaction->getCronError());
+              $log->logError('Failed to mark transactions for #' . $aData['id'] . ' prior to #' . $transaction->insert_id . ' as archived. ERROR: ' . $transaction->getCronError());
             // Run the payouts from RPC now that the user is fully debited
             try {
-              $rpc_txid = $bitcoin->sendtoaddress($aData['coin_address'], $GLOBAL.config.payout);
+              $rpc_txid = $bitcoin->sendtoaddress($aData['user_address'], $config['payout']);
             } catch (Exception $e) {
-              $log->logError('E0078: RPC method did not return 200 OK: Address: ' . $aData['coin_address'] . ' ERROR: ' . $e->getMessage());
+              $log->logError('E0078: RPC method did not return 200 OK: Address: ' . $aData['user_address'] . ' ERROR: ' . $e->getMessage());
               // Remove this line below if RPC calls are failing but transactions are still added to it
               // Don't blame MPOS if you run into issues after commenting this out!
               $monitoring->endCronjob($cron_name, 'E0078', 1, true);
@@ -84,7 +79,7 @@ if ($setting->getValue('disable_manual_payouts') != 1) {
             if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
               $log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $tx_id . ': ' . $transaction->getCronError());
           } else {
-            $log->logFatal('Failed to add new Debit_MP transaction in database for user ' . $aData['account_id'] . ' ERROR: ' . $transaction->getCronError());
+            $log->logFatal('Failed to add new Debit_MP transaction in database for user ' . $aData['id'] . ' ERROR: ' . $transaction->getCronError());
             $monitoring->endCronjob($cron_name, 'E0064', 1, true);
           }
       }
