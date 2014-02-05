@@ -29,7 +29,7 @@ class Faucetusers extends Base {
 			$stmt->bind_result($retval);
 			$stmt->fetch();
 			$stmt->close();
-			if (empty($retval) {
+			if (empty($retval)
 				return true;
 		} else {
 			return false;
