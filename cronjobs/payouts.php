@@ -41,43 +41,43 @@ if ($bitcoin->can_connect() !== true) {
 }
 
 // Fetch outstanding payout requests
-$aPayouts = $oFaucetpayout->getUnprocessedPayouts();
+$uPayout = $oFaucetpayout->getUnprocessedPayouts();
 	
 // Determine if there are payouts to be completed
-if (count($aPayouts) > 0) {
-	$log->logInfo("Found " . count($aPayouts) . " queued payout requests.");
+if (count($uPayout) > 0) {
+	$log->logInfo("Found " . count($uPayout) . " queued payout requests.");
 	
 	// Test each payout
-	foreach ($aPayouts as $aData) {
+	foreach ($uPayout as $uData) {
 		$transaction_id = NULL;
 		$rpc_txid = NULL;
 		
 		// Validate address against RPC
-		if ($bitcoin->validateaddress($aData['user_address'])) {
+		if ($bitcoin->validateaddress($uData['user_address'])) {
 		
-			$log->logInfo('Starting payout for user' . $aData['id'] . ' with address ' . $aData['user_address']);
+			$log->logInfo('Starting payout for user' . $uData['id'] . ' with address ' . $uData['user_address']);
 			
 			// Mark transaction completed
-			if (!$oFaucetpayout->setProcessed($aData['id'])) {
-				$log->logFatal('unable to mark transaction ' . $aData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
+			if (!$oFaucetpayout->setProcessed($uData['id'])) {
+				$log->logFatal('unable to mark transaction ' . $uData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
 				$monitoring->endCronjob($cron_name, 'E0010', 1, true);
 			}
 			
 			// Create a new transaction in the table
-			if ($transaction->addTransaction($aData['id'], $config['payout'], 'Debit_MP', NULL, $aData['user_address'], NULL)) {
+			if ($transaction->addTransaction($uData['id'], $config['payout'], 'Debit_MP', NULL, $uData['user_address'], NULL)) {
 				
 				// Store debit transaction ID for later update
 				$transaction_id = $transaction->insert_id;
 				
 				// Mark all older transactions as archived
-				if (!$transaction->setArchived($aData['id'], $transaction->insert_id))
-					$log->logError('Failed to mark transactions for #' . $aData['id'] . ' prior to #' . $transaction->insert_id . ' as archived. ERROR: ' . $transaction->getCronError());
+				if (!$transaction->setArchived($uData['id'], $transaction->insert_id))
+					$log->logError('Failed to mark transactions for #' . $uData['id'] . ' prior to #' . $transaction->insert_id . ' as archived. ERROR: ' . $transaction->getCronError());
 				
 				// Run the payouts from RPC now that the user is fully debited
 				try {
-					$rpc_txid = $bitcoin->sendtoaddress($aData['user_address'], $config['payout']);
+					$rpc_txid = $bitcoin->sendtoaddress($uData['user_address'], $config['payout']);
 				} catch (Exception $e) {
-					$log->logError('E0078: RPC method did not return 200 OK: Address: ' . $aData['user_address'] . ' ERROR: ' . $e->getMessage());
+					$log->logError('E0078: RPC method did not return 200 OK: Address: ' . $uData['user_address'] . ' ERROR: ' . $e->getMessage());
 					// Remove the line below if RPC calls are failing but transactions are still being added
 					// Can cause serious issues after commenting this out!
 					$monitoring->endCronjob($cron_name, 'E0078', 1, true);
@@ -89,20 +89,21 @@ if (count($aPayouts) > 0) {
 			}
 			
 			// Log completion
-			$log->logInfo('Completed payout successfully for user ' . $aData['id'] . ' with IP ' . $aData['user_ip'] . ' and address ' . $aData['user_address']); 
+			$log->logInfo('Completed payout successfully for user ' . $uData['id'] . ' with IP ' . $uData['user_ip'] . ' and address ' . $uData['user_address']); 
 
 		} else {
-			$log->logError('Failed to verify the coin address for user ' . $aData['id'] . ', skipping payout.');
-			$oFaucetpayout->setProcessed($aData['id']);
+			$log->logError('Failed to verify the coin address for user ' . $uData['id'] . ', skipping payout.');
+			$oFaucetpayout->setProcessed($uData['id']);
 		}
 	}
-	
 } else if (empty($aPayouts)) {
 	$log->logInfo("Stopping payout cron. No payout requests found.");
 } else {
 	$log->logFatal("Failed processing payment queue! ...Aborting...");
 	$monitoring->endCronjob($cron_name, 'E0050', 1, true);
 }
+
+$log->logInfo("Payout cron has finished successfully!");
 
 // Cron cleanup and monitoring
 require_once('cron_end.inc.php');
