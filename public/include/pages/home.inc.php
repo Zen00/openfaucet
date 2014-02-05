@@ -12,6 +12,7 @@ $smarty->assign("PAYOUT", $config['payout']);
 // Log the user
 if(isset($_POST['userAddress']) && $_POST['userAddress'] !== '') {
     $faucetusers->logUser();
+    unset($_POST['userAddress']);
 }
 
 if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {

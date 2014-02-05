@@ -17,8 +17,9 @@ class Faucetusers extends Base {
 			$stmt = $this->mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
 			$stmt->bind_param('ss',$userAddress,$userIP);
 			$stmt->execute();
+			$_SESSION['POPUP'][] = array('CONTENT' => "Thank you for using our faucet, you can come back in 24 hours for more coin!", 'TYPE' => 'info');
 		} else {
-		$_SESSION['POPUP'][] = array('CONTENT' => "There has already been a request from your location today, please wait 24 hours between submissions", 'TYPE' => 'info');
+		$_SESSION['POPUP'][] = array('CONTENT' => "There has already been a request from your location today, please wait 24 hours between submissions.", 'TYPE' => 'info');
 		}
 	}
 	
