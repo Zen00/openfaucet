@@ -83,7 +83,7 @@ if (count($aPayouts) > 0) {
 			// Run the payouts from RPC now that the user is fully debited
 			try {
 				$rpc_txid = $bitcoin->sendtoaddress($aData['user_address'], $config['payout']);
-				} catch (Exception $e) {
+			} catch (Exception $e) {
 				$log->logError('E0078: RPC method did not return 200 OK: Address: ' . $aData['user_address'] . ' ERROR: ' . $e->getMessage());
 				// Remove this line below if RPC calls are failing but transactions are still added to it
 				// Don't blame MPOS if you run into issues after commenting this out!
@@ -91,7 +91,7 @@ if (count($aPayouts) > 0) {
 			}
 				
 			// Update our transaction and add the RPC Transaction ID
-			if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
+			if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid)) {
 				$log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ': ' . $transaction->getCronError());
 			} else {
 				$log->logFatal('Failed to add new Debit_MP transaction in database for user ' . $aData['id'] . ' ERROR: ' . $transaction->getCronError());
