@@ -47,7 +47,7 @@ $aPayouts = $oFaucetpayout->getUnprocessedPayouts();
 if (count($aPayouts) > 0) {
 	$log->logInfo("Found " . count($aPayouts) . " queued payout requests.");
 	
-	// Create a array of the found payouts
+	// Test each payout
 	foreach ($aPayouts as $aData) {
 		$transaction_id = NULL;
 		$rpc_txid = NULL;
@@ -55,7 +55,9 @@ if (count($aPayouts) > 0) {
 		// Validate address against RPC
 		if ($bitcoin->validateaddress($aData['user_address'])) {
 		
-			// To ensure we don't run this transaction again, lets mark it completed
+			$log->logInfo('Starting payout for user' . $aData['id'] . ' with address ' . $aData['user_address']);
+			
+			// Mark transaction completed
 			if (!$oFaucetpayout->setProcessed($aData['id'])) {
 				$log->logFatal('unable to mark transaction ' . $aData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
 				$monitoring->endCronjob($cron_name, 'E0010', 1, true);
