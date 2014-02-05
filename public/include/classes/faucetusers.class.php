@@ -13,13 +13,19 @@ class Faucetusers extends Base {
 	public function logUser() {
 		$userIP = $this->user->getCurrentIP();
 		$userAddress = $_POST['userAddress'];
+		if (!$bitcoin->validateaddress($userAddress) {
+			$_SESSION['POPUP'][] = array('CONTENT' => "There's been a problem, your address doesn't match the format for " . $config['payout'] . ". Please try again with another address.", 'TYPE' => 'info');
+			return false;
+		}
 		if ($this->checkUserIP($userIP)) {
 			$stmt = $this->mysqli->prepare("INSERT INTO $this->table (user_address, user_ip) VALUES (?,?)");
 			$stmt->bind_param('ss',$userAddress,$userIP);
 			$stmt->execute();
 			$_SESSION['POPUP'][] = array('CONTENT' => "Thank you for using our faucet, you can come back in 24 hours for more coin!", 'TYPE' => 'info');
+			return true;
 		} else {
-		$_SESSION['POPUP'][] = array('CONTENT' => "There has already been a request from your location today, please wait 24 hours between submissions.", 'TYPE' => 'info');
+			$_SESSION['POPUP'][] = array('CONTENT' => "There has already been a request from your location today, please wait 24 hours between submissions.", 'TYPE' => 'info');
+			return false;
 		}
 	}
 	
