@@ -14,7 +14,7 @@ class Faucetusers extends Base {
 		$userIP = $this->user->getCurrentIP();
 		$userAddress = $_POST['userAddress'];
 		if (!$this->bitcoin->validateaddress($userAddress)) {
-			$_SESSION['POPUP'][] = array('CONTENT' => "There's been a problem, your address doesn't match the format for " . $config['payout'] . ". Please try again with another address.", 'TYPE' => 'info');
+			$_SESSION['POPUP'][] = array('CONTENT' => "There's been a problem, your address doesn't match the format for our currency. Please try again with another address.", 'TYPE' => 'info');
 			return false;
 		}
 		if ($this->checkUserIP($userIP)) {
