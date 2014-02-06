@@ -51,3 +51,4 @@ $faucetusers->setMysql($mysqli);
 $faucetusers->setDebug($debug);
 $faucetusers->setErrorCodes($aErrorCodes);
 $faucetusers->setUser($user);
+$faucetusers->setBitcoin($bitcoin);
