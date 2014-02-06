@@ -16,30 +16,30 @@ $aSettings['website'][] = array(
 $aSettings['website'][] = array(
   'display' => 'Website Name', 'type' => 'text',
   'size' => 25,
-  'default' => 'The Pool',
+  'default' => 'The Faucet',
   'name' => 'website_name', 'value' => $setting->getValue('website_name'),
-  'tooltip' => 'The name of you pool page, displayed in the header of the page.'
+  'tooltip' => 'The name of you faucet page, displayed in the header of the page.'
 );
 $aSettings['website'][] = array(
   'display' => 'Website e-mail', 'type' => 'text',
   'size' => 25,
   'default' => 'test@example.com',
   'name' => 'website_email', 'value' => $setting->getValue('website_email'),
-  'tooltip' => 'The email address for your pool, used in mail templates and notifications.'
+  'tooltip' => 'The email address for your faucet, used in mail templates.'
 );
 $aSettings['website'][] = array(
   'display' => 'Website theme', 'type' => 'select',
   'options' => $aThemes,
-  'default' => 'mpos',
+  'default' => 'faucet',
   'name' => 'website_theme', 'value' => $setting->getValue('website_theme'),
-  'tooltip' => 'The default theme used on your pool.'
+  'tooltip' => 'The default theme used on your faucet.'
 );
 $aSettings['website'][] = array(
   'display' => 'Website mobile theme', 'type' => 'select',
   'options' => $aThemes,
   'default' => 'mobile',
   'name' => 'website_mobile_theme', 'value' => $setting->getValue('website_mobile_theme'),
-  'tooltip' => 'The mobile theme used for your pool.'
+  'tooltip' => 'The mobile theme used for your faucet.'
 );
 $aSettings['wallet'][] = array(
   'display' => 'Cold Coins', 'type' => 'text',
@@ -63,11 +63,11 @@ $aSettings['statistics'][] = array(
   'name' => 'statistics_analytics_code', 'value' => $setting->getValue('statistics_analytics_code'),
   'tooltip' => '.'
 );
-$aSettings['acl'][] = array(
+$aSettings['news'][] = array(
   'display' => 'Hide news post author', 'type' => 'select',
   'options' => array( 0 => 'No', 1 => 'Yes' ),
   'default' => 0,
-  'name' => 'acl_hide_news_author', 'value' => $setting->getValue('acl_hide_news_author'),
+  'name' => 'hide_news_author', 'value' => $setting->getValue('hide_news_author'),
   'tooltip' => 'Should the news author username be hidden.'
 );
 $aSettings['system'][] = array(
@@ -89,7 +89,7 @@ $aSettings['system'][] = array(
   'options' => array( 0 => 'No', 1 => 'Yes' ),
   'default' => 0,
   'name' => 'lock_registration', 'value' => $setting->getValue('lock_registration'),
-  'tooltip' => 'Enable or Disable registrations. Useful to create an invitation only pool.'
+  'tooltip' => 'Enable or Disable registrations.'
 );
 $aSettings['system'][] = array(
   'display' => 'Disable Payout Cron', 'type' => 'select',
@@ -110,7 +110,7 @@ $aSettings['system'][] = array(
   'options' => array( 0 => 'No', 1 => 'Yes'),
   'default' => 1,
   'name' => 'disable_about', 'value' => $setting->getValue('disable_about'),
-  'tooltip' => 'Showing About page in Navigation.'
+  'tooltip' => 'Enable or Disable About page in footer.'
 );
 $aSettings['system'][] = array(
   'display' => 'Disable TX Summaries', 'type' => 'select',

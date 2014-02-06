@@ -1,6 +1,6 @@
 {nocache}
 <article class="module width_quarter">
-  <header><h3>MPOS Version Information</h3></header>
+  <header><h3>OpenFaucet Version Information</h3></header>
   <table width="25%" class="tablesorter" cellspacing="0">
     <thead>
       <tr>
@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><strong>MPOS</strong></td>
+        <td><strong>OpenFaucet</strong></td>
         <td align="center"><font color="green">{$VERSION['CURRENT']['CORE']}</font></td>
         <td align="center">
           <font color="{if $VERSION['INSTALLED']['CORE'] == $VERSION['CURRENT']['CORE']}green{else}red{/if}">{$VERSION['INSTALLED']['CORE']}</font>

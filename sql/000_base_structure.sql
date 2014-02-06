@@ -219,17 +219,13 @@ INSERT INTO `token_types` (`id`, `name`, `expiration`) VALUES
 
 CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
-  `account_id` int(255) unsigned NOT NULL,
   `type` varchar(25) DEFAULT NULL,
   `coin_address` varchar(255) DEFAULT NULL,
   `amount` double DEFAULT '0',
-  `block_id` int(255) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `txid` varchar(256) DEFAULT NULL,
   `archived` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `block_id` (`block_id`),
-  KEY `account_id` (`account_id`),
   KEY `type` (`type`),
   KEY `archived` (`archived`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

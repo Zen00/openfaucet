@@ -1,6 +1,6 @@
 {nocache}
 <article class="module width_quarter">
-  <header><h3>MPOS Status</h3></header>
+  <header><h3>OpenFaucet Status</h3></header>
   <table class="tablesorter" cellspacing="0">
     <thead>
       <tr>

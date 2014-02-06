@@ -17,11 +17,11 @@ if ($bitcoin->can_connect() === true){
 }
 
 // Fetch version information
-$version['CURRENT'] = array('DB' => DB_VERSION, 'CONFIG' => CONFIG_VERSION, 'CORE' => MPOS_VERSION);
-$version['INSTALLED'] = array('DB' => $setting->getValue('DB_VERSION'), 'CONFIG' => $config['version'], 'CORE' => MPOS_VERSION);
+$version['CURRENT'] = array('DB' => DB_VERSION, 'CONFIG' => CONFIG_VERSION, 'CORE' => FAUCET_VERSION);
+$version['INSTALLED'] = array('DB' => $setting->getValue('DB_VERSION'), 'CONFIG' => $config['version'], 'CORE' => FAUCET_VERSION);
 
 // Fetch cron information
-$aCrons = array('statistics','payouts','token_cleanup','archive_cleanup','blockupdate','findblock','notifications','tickerupdate');
+$aCrons = array('payouts','token_cleanup','user_purge');
 // Data array for template
 $cron_errors = 0;
 $cron_disabled = 0;
@@ -41,7 +41,6 @@ $aUserInfo = array(
   'active' => $statistics->getCountAllActiveUsers(),
   'locked' => $user->getCountFiltered('is_locked', 1),
   'admins' => $user->getCountFiltered('is_admin', 1),
-  'nofees' => $user->getCountFiltered('no_fees', 1)
 );
 $smarty->assign('USER_INFO', $aUserInfo);
 
@@ -54,16 +53,6 @@ $aLoginInfo = array(
   '1year' => $user->getCountFiltered('last_login', (time() - (86400 * 365)), 'i', '>=')
 );
 $smarty->assign('USER_LOGINS', $aLoginInfo);
-
-// Fetch invitation information
-if (!$setting->getValue('disable_invitations')) {
-  $aInvitationInfo = array(
-    'total' => $invitation->getCount(),
-    'activated' => $invitation->getCountFiltered('is_activated', 1),
-    'outstanding' => $invitation->getCountFiltered('is_activated', 0)
-  );
-  $smarty->assign('INVITATION_INFO', $aInvitationInfo);
-}
 
 // Wallet status
 $smarty->assign('WALLET_ERROR', $aGetInfo['errors']);

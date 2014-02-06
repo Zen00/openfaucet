@@ -16,7 +16,6 @@
       <li class="icon-exchange"><a href="{$smarty.server.SCRIPT_NAME}?page=admin&action=transactions">Transactions</a></li>
       <li class="icon-cog"><a href="{$smarty.server.SCRIPT_NAME}?page=admin&action=settings">Settings</a></li>
       <li class="icon-doc"><a href="{$smarty.server.SCRIPT_NAME}?page=admin&action=news">News</a></li>
-      <li class="icon-pencil"><a href="{$smarty.server.SCRIPT_NAME}?page=admin&action=templates">Templates</a></li>
     </ul>
     {/if}
     <h3>Other</h3>

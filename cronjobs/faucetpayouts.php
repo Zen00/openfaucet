@@ -57,35 +57,32 @@ if (count($uPayout) > 0) {
 		
 			$log->logInfo('Starting payout for user ' . $uData['id']);
 			
-			// Mark transaction completed
+			// Mark transaction completed before payout to prevent doubling
 			if (!$oFaucetpayout->setProcessed($uData['id'])) {
 				$log->logFatal('unable to mark transaction ' . $uData['id'] . ' as processed. ERROR: ' . $oFaucetpayout->getCronError());
 				$monitoring->endCronjob($cron_name, 'E0010', 1, true);
 			}
 			
 			// Create a new transaction in the table
-			if ($transaction->addTransaction($uData['id'], $config['payout'], 'Debit_MP', NULL, $uData['user_address'], NULL)) {
+			if ($fTransaction->addTransaction($uData['id'], $config['payout'], 'Debit_MP', NULL, $uData['user_address'], NULL)) {
 				
 				// Store debit transaction ID for later update
 				$transaction_id = $transaction->insert_id;
-				
-				// Mark all older transactions as archived
-				if (!$transaction->setArchived($uData['id'], $transaction->insert_id))
-					$log->logError('Failed to mark transactions for #' . $uData['id'] . ' prior to #' . $transaction->insert_id . ' as archived. ERROR: ' . $transaction->getCronError());
 				
 				// Run the payouts from RPC now that the user is fully debited
 				try {
 					$rpc_txid = $bitcoin->sendtoaddress($uData['user_address'], $config['payout']);
 				} catch (Exception $e) {
 					$log->logError('E0078: RPC method did not return 200 OK: Address: ' . $uData['user_address'] . ' ERROR: ' . $e->getMessage());
+					
 					// Remove the line below if RPC calls are failing but transactions are still being added
 					// Can cause serious issues after commenting this out!
 					$monitoring->endCronjob($cron_name, 'E0078', 1, true);
 				}
 					
 				// Update transaction and add the RPC Transaction ID
-				if (empty($rpc_txid) || !$transaction->setRPCTxId($transaction_id, $rpc_txid))
-					$log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ' Error: ' . $transaction->getCronError());
+				if (empty($rpc_txid) || !$fTransaction->setRPCTxId($transaction_id, $rpc_txid))
+					$log->logError('Unable to add RPC transaction ID ' . $rpc_txid . ' to transaction record ' . $transaction_id . ' Error: ' . $fTransaction->getCronError());
 			}
 			
 			// Log completion

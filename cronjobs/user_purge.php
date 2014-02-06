@@ -3,7 +3,7 @@
 
 /*
 
-Copyright:: 2013, Sebastian Grewe
+Copyright:: 2014, Grant Brown
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,15 +25,11 @@ chdir(dirname(__FILE__));
 // Include all settings and classes
 require_once('shared.inc.php');
 
-// If we don't keep archives, delete some now to release disk space
-$affected_rows = $share->purgeArchive();
-if ($affected_rows === false) {
-  $log->logError("Failed to delete archived shares, not critical but should be checked: " . $share->getCronError());
-  $monitoring->endCronjob($cron_name, 'E0008', 0, false, false);
-} else {
-  $log->logDebug("Deleted $affected_rows archived shares this run");
-}
+$log->logInfo("Starting User Purge cron...");
 
-// Cron cleanup and monitoring
+$faucetusers->emptyTable();
+
+$log->logInfo("User Purge cron has finished successfully!");
+
 require_once('cron_end.inc.php');
 ?>

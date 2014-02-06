@@ -3,9 +3,9 @@
 // Make sure we are called from index.php
 if (!defined('SECURITY')) die('Hacking attempt');
 
-define('MPOS_VERSION', '0.0.2');
+define('FAUCET_VERSION', '0.0.1');
 define('DB_VERSION', '0.0.4');
-define('CONFIG_VERSION', '0.0.6');
+define('CONFIG_VERSION', '0.0.1');
 
 // Fetch installed database version
 $db_version = $setting->getValue('DB_VERSION');

@@ -59,7 +59,7 @@ require_once(CLASS_DIR . '/invitation.class.php');
 require_once(CLASS_DIR . '/share.class.php');
 require_once(CLASS_DIR . '/worker.class.php');
 require_once(CLASS_DIR . '/statistics.class.php');
-require_once(CLASS_DIR . '/transaction.class.php');
+require_once(CLASS_DIR . '/faucettransaction.class.php');
 require_once(CLASS_DIR . '/roundstats.class.php');
 require_once(CLASS_DIR . '/news.class.php');
 require_once(CLASS_DIR . '/api.class.php');

@@ -43,6 +43,11 @@ class Faucetusers extends Base {
 		}
 		return false;
 	}
+	
+	public function emptyTable() {
+		$this->debug->append("STA " . __METHOD__, 4);
+		$stmt = $this->mysqli->prepare("TRUNCATE TABLE $this->table");
+	}
 }
 
 // Make our class available automatically

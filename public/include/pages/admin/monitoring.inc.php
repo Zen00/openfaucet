@@ -10,7 +10,7 @@ if (!$user->isAuthenticated() || !$user->isAdmin($_SESSION['USERDATA']['id'])) {
 }
 
 // Default crons to monitor
-$aCrons = array('statistics','payouts','token_cleanup');
+$aCrons = array('faucetpayouts','token_cleanup','user_purge');
 
 // Data array for template
 foreach ($aCrons as $strCron) {

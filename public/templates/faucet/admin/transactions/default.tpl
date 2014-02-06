@@ -60,7 +60,7 @@
 </article>
 
 <article class="module width_3_quarter">
-  <header><h3>Transaction History</h3></header>
+  <header><h3>Recent Transaction History</h3></header>
     <table cellspacing="0" class="tablesorter" width="100%">
       <thead>
         <tr>
@@ -70,7 +70,6 @@
           <th align="center">Status</th>
           <th>Payment Address</th>
           <th>TX #</th>
-          <th>Block #</th>
           <th>Amount</th>
         </tr>
       </thead>
@@ -81,15 +80,11 @@
           <td>{$TRANSACTIONS[transaction].timestamp}</td>
           <td>{$TRANSACTIONS[transaction].type}</td>
           <td align="center">
-            {if $TRANSACTIONS[transaction].type == 'Credit_PPS' OR
-                $TRANSACTIONS[transaction].type == 'Fee_PPS' OR
-                $TRANSACTIONS[transaction].type == 'Donation_PPS' OR
+            {if $TRANSACTIONS[transaction].type == 'Donation' OR
                 $TRANSACTIONS[transaction].type == 'Debit_MP' OR
-                $TRANSACTIONS[transaction].type == 'Debit_AP' OR
-                $TRANSACTIONS[transaction].type == 'TXFee' OR
+                $TRANSACTIONS[transaction].type == 'Debit_SP' OR
                 $TRANSACTIONS[transaction].confirmations >= $GLOBAL.confirmations
             }<span class="confirmed">Confirmed</span>
-            {else if $TRANSACTIONS[transaction].confirmations == -1}<span class="orphan">Orphaned</span>
             {else}<span class="unconfirmed">Unconfirmed</span>{/if}
           </td>
           <td><a href="#" onClick="alert('{$TRANSACTIONS[transaction].coin_address|escape}')">{$TRANSACTIONS[transaction].coin_address|truncate:20:"...":true:true}</a></td>
@@ -98,12 +93,11 @@
           {else}
             <td><a href="#" onClick="alert('{$TRANSACTIONS[transaction].txid|escape}')" title="{$TRANSACTIONS[transaction].txid|escape}">{$TRANSACTIONS[transaction].txid|truncate:20:"...":true:true}</a></td>
           {/if}
-          <td>{if $TRANSACTIONS[transaction].height == 0}n/a{else}<a href="{$smarty.server.SCRIPT_NAME}?page=statistics&action=round&height={$TRANSACTIONS[transaction].height}">{$TRANSACTIONS[transaction].height}</a>{/if}</td>
           <td><font color="{if $TRANSACTIONS[transaction].type == 'Credit' or $TRANSACTIONS[transaction].type == 'Credit_PPS' or $TRANSACTIONS[transaction].type == 'Bonus'}green{else}red{/if}">{$TRANSACTIONS[transaction].amount|number_format:"8"}</td>
         </tr>
 {/section}
       </tbody>
     </table>
-    <footer><p style="margin-left: 25px; font-size: 9px;"><b>Debit_AP</b> = Auto Payment, <b>Debit_SP</b> = Stash Payment, <b>Donation</b> = Donation</p></footer>
+    <footer><p style="margin-left: 25px; font-size: 9px;"><b>Debit_MP</b> = Manual Payout, <b>Debit_SP</b> = Stash Payout, <b>Donation</b> = Donation to faucet</p></footer>
 </article>
 
