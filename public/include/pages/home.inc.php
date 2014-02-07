@@ -26,7 +26,7 @@ if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
     }
   }
 
-  $smarty->assign("HIDEAUTHOR", $setting->getValue('acl_hide_news_author'));
+  $smarty->assign("HIDEAUTHOR", $setting->getValue('hide_news_author'));
   $smarty->assign("NEWS", $aNews);
 } else {
   $debug->append('Using cached page', 3);

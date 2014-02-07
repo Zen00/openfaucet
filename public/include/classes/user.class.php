@@ -34,9 +34,6 @@ class User extends Base {
   public function getUserNoFee($id) {
     return $this->getSingle($id, 'no_fees', 'id');
   }
-  public function getUserDonatePercent($id) {
-    return $this->getDonatePercent($id);
-  }
   public function getUserAdmin($id) {
     return $this->getSingle($id, 'is_admin', 'id');
   }
@@ -224,27 +221,6 @@ class User extends Base {
 }
 
   /**
-   * Get all users that have auto payout setup
-   * @param none
-   * @return data array All users with payout setup
-   **/
-  public function getAllAutoPayout() {
-    $this->debug->append("STA " . __METHOD__, 4);
-    $stmt = $this->mysqli->prepare("
-      SELECT
-        id, username, coin_address, ap_threshold
-      FROM " . $this->getTableName() . "
-      WHERE ap_threshold > 0
-      AND coin_address IS NOT NULL
-      ");
-    if ( $this->checkStmt($stmt) && $stmt->execute() && $result = $stmt->get_result()) {
-      return $result->fetch_all(MYSQLI_ASSOC);
-    }
-    $this->debug->append("Unable to fetch users with AP set");
-    return false;
-  }
-
-  /**
    * Fetch users coin address
    * @param userID int UserID
    * @return data string Coin Address
@@ -252,19 +228,6 @@ class User extends Base {
   public function getCoinAddress($userID) {
     $this->debug->append("STA " . __METHOD__, 4);
     return $this->getSingle($userID, 'coin_address', 'id');
-  }
-
-  /**
-   * Fetch users donation value 
-   * @param userID int UserID
-   * @return data string Coin Address
-   **/
-  public function getDonatePercent($userID) {
-    $this->debug->append("STA " . __METHOD__, 4);
-    $dPercent = $this->getSingle($userID, 'donate_percent', 'id');
-    if ($dPercent > 100) $dPercent = 100;
-    if ($dPercent < 0) $dPercent = 0;
-    return $dPercent;
   }
 
   /**
@@ -352,36 +315,13 @@ class User extends Base {
    * Update account information from the edit account page
    * @param userID int User ID
    * @param address string new coin address
-   * @param threshold float auto payout threshold
-   * @param donat float donation % of income
    * @param strToken string Token for confirmation
    * @return bool
    **/
-  public function updateAccount($userID, $address, $threshold, $donate, $email, $is_anonymous, $strToken) {
+  public function updateAccount($userID, $address, $email, $strToken) {
     $this->debug->append("STA " . __METHOD__, 4);
     $bUser = false;
-    $donate = round($donate, 2);
     // number validation checks
-    if (!is_numeric($threshold)) {
-      $this->setErrorMessage('Invalid input for auto-payout');
-      return false;
-    } else if ($threshold < $this->config['ap_threshold']['min'] && $threshold != 0) {
-      $this->setErrorMessage('Threshold below configured minimum of ' . $this->config['ap_threshold']['min']);
-      return false;
-    } else if ($threshold > $this->config['ap_threshold']['max']) {
-      $this->setErrorMessage('Threshold above configured maximum of ' . $this->config['ap_threshold']['max']);
-      return false;
-    }
-    if (!is_numeric($donate)) {
-      $this->setErrorMessage('Invalid input for donation');
-      return false;
-    } else if ($donate < $this->config['donate_threshold']['min'] && $donate != 0) {
-      $this->setErrorMessage('Donation below allowed ' . $this->config['donate_threshold']['min'] . '% limit');
-      return false;
-    } else if ($donate > 100) {
-      $this->setErrorMessage('Donation above allowed 100% limit');
-      return false;
-    }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
       $this->setErrorMessage('Invalid email address');
       return false;
@@ -404,13 +344,9 @@ class User extends Base {
       }
     }
 
-    // Number sanitizer, just in case we fall through above
-    $threshold = min($this->config['ap_threshold']['max'], max(0, floatval($threshold)));
-    $donate = min(100, max(0, floatval($donate)));
-
     // We passed all validation checks so update the account
-    $stmt = $this->mysqli->prepare("UPDATE $this->table SET coin_address = ?, ap_threshold = ?, donate_percent = ?, email = ?, is_anonymous = ? WHERE id = ?");
-    if ($this->checkStmt($stmt) && $stmt->bind_param('sddsii', $address, $threshold, $donate, $email, $is_anonymous, $userID) && $stmt->execute())
+    $stmt = $this->mysqli->prepare("UPDATE $this->table SET coin_address = ?, email = ? WHERE id = ?");
+    if ($this->checkStmt($stmt) && $stmt->bind_param('sdi', $address, $email, $userID) && $stmt->execute())
       // twofactor - consume the token if it is enabled and valid
       if ($this->config['twofactor']['enabled'] && $this->config['twofactor']['options']['details']) {
         $tValid = $this->token->isTokenValid($userID, $strToken, 5);
@@ -426,23 +362,6 @@ class User extends Base {
     $this->setErrorMessage('Failed to update your account');
     $this->debug->append('Account update failed: ' . $this->mysqli->error);
     return false;
-  }
-
-  /**
-   * Check API key for authentication
-   * @param key string API key hash
-   * @return bool
-   **/
-  public function checkApiKey($key) {
-    $this->debug->append("STA " . __METHOD__, 4);
-    if (!is_string($key)) return false;
-    $stmt = $this->mysqli->prepare("SELECT api_key, id FROM $this->table WHERE api_key = ? LIMIT 1");
-    if ($this->checkStmt($stmt) && $stmt->bind_param("s", $key) && $stmt->execute() && $stmt->bind_result($api_key, $id) && $stmt->fetch()) {
-      if ($api_key === $key)
-        return $id;
-    }
-    header("HTTP/1.1 401 Unauthorized");
-    die('Access denied');
   }
 
   /**
@@ -554,12 +473,7 @@ class User extends Base {
   public function getUserData($userID) {
     $this->debug->append("STA " . __METHOD__, 4);
     $this->debug->append("Fetching user information for user id: $userID");
-    $stmt = $this->mysqli->prepare("
-      SELECT
-      id, username, pin, api_key, is_admin, is_anonymous, email, no_fees,
-      IFNULL(donate_percent, '0') as donate_percent, coin_address, ap_threshold
-      FROM $this->table
-      WHERE id = ? LIMIT 0,1");
+    $stmt = $this->mysqli->prepare("SELECT id, username, pin, is_admin, email, coin_address FROM $this->table WHERE id = ? LIMIT 0,1");
     if ($this->checkStmt($stmt)) {
       $stmt->bind_param('i', $userID);
       if (!$stmt->execute()) {
@@ -637,7 +551,6 @@ class User extends Base {
     // Create hashed strings using original string and salt
     $password_hash = $this->getHash($password1);
     $pin_hash = $this->getHash($pin);
-    $apikey_hash = $this->getHash($username);
     $username_clean = strip_tags($username);
     $signup_time = time();
 

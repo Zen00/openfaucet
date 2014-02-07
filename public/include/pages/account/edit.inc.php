@@ -186,7 +186,6 @@ $smarty->assign("DETAILSUNLOCKED", $ea_editable);
 $smarty->assign("CHANGEPASSSENT", $cp_sent);
 $smarty->assign("WITHDRAWSENT", $wf_sent);
 $smarty->assign("DETAILSSENT", $ea_sent);
-$smarty->assign("DONATE_THRESHOLD", $config['donate_threshold']);
 
 // Tempalte specifics
 $smarty->assign("CONTENT", "default.tpl");
