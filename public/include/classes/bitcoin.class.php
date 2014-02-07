@@ -292,13 +292,14 @@ class BitcoinClient extends jsonRPCClient {
    */
   public function can_connect() {
     try {
-      $r = $this->getinfo();
+      $r = getinfo();
     } catch (Exception $e) {
       return $e->getMessage();
     }
     return true;
   }
-    public function getinfo() {
+  
+  public function getinfo() {
     $this->oDebug->append("STA " . __METHOD__, 4);
     if ($data = $this->memcache->get(__FUNCTION__)) return $data;
     return $this->memcache->setCache(__FUNCTION__, parent::getinfo(), 30);
