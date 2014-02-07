@@ -18,7 +18,6 @@ $aGlobal = array(
   'config' => array(
     'disable_payouts' => $setting->getValue('disable_payouts'),
     'disable_contactform' => $setting->getValue('disable_contactform'),
-    'accounts' => $config['accounts'],
     'monitoring_uptimerobot_api_keys' => $setting->getValue('monitoring_uptimerobot_api_keys'),
     'currency' => $config['currency'],
     'payout' => $config['payout'],
