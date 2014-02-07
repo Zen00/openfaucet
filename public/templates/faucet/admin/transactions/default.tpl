@@ -1,4 +1,3 @@
-{if $DISABLE_TRANSACTIONSUMMARY|default:"0" != 1}
 <article class="module width_full">
   <header><h3>Transaction Summary</h3></header>
   <table class="tablesorter" cellspacing="0">
@@ -18,7 +17,6 @@
     </tbody>
   </table>
 </article>
-{/if}
 
 <article class="module width_quarter">
   <header><h3>Transaction Filter</h3></header>

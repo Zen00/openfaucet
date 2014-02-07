@@ -72,17 +72,12 @@ class faucetTransaction extends Base {
     $sql = "
       SELECT
         t.id AS id,
-        a.username as username,
         t.type AS type,
         t.amount AS amount,
         t.coin_address AS coin_address,
         t.timestamp AS timestamp,
         t.txid AS txid,
-        b.height AS height,
-        b.blockhash AS blockhash,
-        b.confirmations AS confirmations
       FROM $this->table AS t
-      LEFT JOIN " . $this->block->getTableName() . " AS b ON t.block_id = b.id
       LEFT JOIN " . $this->user->getTableName() . " AS a ON t.account_id = a.id";
     if (!empty($account_id)) {
       $sql .= " WHERE ( t.account_id = ? ) ";
@@ -100,15 +95,12 @@ class faucetTransaction extends Base {
           case 'status':
             switch ($value) {
             case 'Confirmed':
-              if (empty($filter['type']) || ($filter['type'] != 'Debit_AP' && $filter['type'] != 'Debit_MP' && $filter['type'] != 'TXFee' && $filter['type'] != 'Credit_PPS' && $filter['type'] != 'Fee_PPS' && $filter['type'] != 'Donation_PPS')) {
+              if (empty($filter['type']) || ($filter['type'] != 'Debit_MP' && $filter['type'] != 'Debit_SP' && $filter['type'] != 'Donation_PPS')) {
                 $aFilter[] = "( b.confirmations >= " . $this->config['confirmations'] . " OR ISNULL(b.confirmations) )";
               }
                 break;
             case 'Unconfirmed':
               $aFilter[] = "( b.confirmations < " . $this->config['confirmations'] . " AND b.confirmations >= 0 )";
-                break;
-            case 'Orphan':
-              $aFilter[] = "( b.confirmations = -1 )";
                 break;
             }
             break;
@@ -159,4 +151,4 @@ $fTransaction = new faucetTransaction();
 $fTransaction->setMysql($mysqli);
 $fTransaction->setDebug($debug);
 $fTransaction->setErrorCodes($aErrorCodes);
-$transaction->setUser($user);
+$fTransaction->setUser($user);
