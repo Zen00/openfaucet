@@ -39,9 +39,10 @@ class BitcoinClient extends jsonRPCClient {
 * @return jsonrpc_client
 * @access public
 * @throws BitcoinClientException
-*
-  public function __construct($scheme, $username, $password, $address = "localhost", $certificate_path = '', $debug = false) {
-    $scheme = strtolower($scheme);
+*/
+public function __construct($type, $username, $password, $address = "localhost", $debug_level) {
+    $scheme = strtolower($type);
+    $debug_level > 0 ? $debug_level = true : $debug_level = false;
     if ($scheme != "http" && $scheme != "https")
       throw new Exception("Scheme must be http or https");
     if (empty($username))
@@ -51,19 +52,8 @@ class BitcoinClient extends jsonRPCClient {
     if (!empty($certificate_path) && !is_readable($certificate_path))
       throw new Exception("Certificate file " . $certificate_path . " is not readable");
     $uri = $scheme . "://" . $username . ":" . $password . "@" . $address . "/";
-    parent::__construct($uri, $debug);
-  }
-*/
-  public function __construct($type, $username, $password, $host, $debug_level, $debug_object) {
-    $this->type = $type;
-    $this->username = $username;
-    $this->password = $password;
-    $this->host = $host;
-    // $this->debug is already used
-    $this->oDebug = $debug_object;
-    $debug_level > 0 ? $debug_level = true : $debug_level = false;
-    return parent::__construct($this->type, $this->username, $this->password, $this->host, '', $debug_level);
-  }
+    parent::__construct($uri, $debug_level);
+}
 
   /**
 * Test if the connection to the Bitcoin JSON-RPC server is working
