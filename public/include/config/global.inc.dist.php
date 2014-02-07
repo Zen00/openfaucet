@@ -47,7 +47,7 @@ $config['db']['host'] = 'localhost';
 $config['db']['user'] = 'someuser';
 $config['db']['pass'] = 'somepass';
 $config['db']['port'] = 3306;
-$config['db']['name'] = 'mpos';
+$config['db']['name'] = 'water';
 
 /**
  * Local wallet RPC configuration
@@ -255,4 +255,3 @@ $config['smarty']['cache_lifetime'] = 30;
  *   max    =  10.0
  **/
 $config['system']['load']['max'] = 10.0;
-?>
