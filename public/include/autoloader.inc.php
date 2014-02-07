@@ -39,7 +39,6 @@ require_once(CLASS_DIR . '/faucetpayout.class.php');
 
 // We require the block class to properly grab the round ID
 require_once(CLASS_DIR . '/bitcoin.class.php');
-require_once(CLASS_DIR . '/bitcoinwrapper.class.php');
 require_once(CLASS_DIR . '/monitoring.class.php');
 require_once(CLASS_DIR . '/user.class.php');
 require_once(CLASS_DIR . '/faucetusers.class.php');
