@@ -91,9 +91,8 @@ class faucetTransaction extends Base {
     }
     return $this->sqlError();
   }
+}
 
 $fTransaction = new faucetTransaction();
 $fTransaction->setMysql($mysqli);
 $fTransaction->setErrorCodes($aErrorCodes);
-
-?>

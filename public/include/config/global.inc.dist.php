@@ -164,6 +164,9 @@ $config['maxfailed']['pin'] = 3;
 // Currency system used in this pool, default: `LTC`
 $config['currency'] = 'LTC';
 
+// Coins transaction time for confirmation
+$config['confirmations'] = 120;
+
 /**
  * Cookie configuration
  *

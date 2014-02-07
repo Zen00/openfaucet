@@ -28,17 +28,6 @@ define("BITCOIN_ADDRESS_VERSION", "00");// this is a hex byte
  */
 class Bitcoin {
 
-    public function __construct($type, $username, $password, $host, $debug_level, $debug_object) {
-    $this->type = $type;
-    $this->username = $username;
-    $this->password = $password;
-    $this->host = $host;
-    $this->oDebug = $debug_object;
-    $debug_level > 0 ? $debug_level = true : $debug_level = false;
-    return __construct($this->type, $this->username, $this->password, $this->host, '', $debug_level);
-  }
-
-
   /*
    * Bitcoin utility functions by theymos
    * Via http://www.bitcoin.org/smf/index.php?topic=1844.0

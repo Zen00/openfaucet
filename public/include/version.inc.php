@@ -4,7 +4,7 @@
 if (!defined('SECURITY')) die('Hacking attempt');
 
 define('FAUCET_VERSION', '0.0.1');
-define('DB_VERSION', '0.0.4');
+define('DB_VERSION', '0.0.1');
 define('CONFIG_VERSION', '0.0.1');
 
 // Fetch installed database version

@@ -102,7 +102,7 @@ $aSettings['system'][] = array(
   'display' => 'Disable Contactform', 'type' => 'select',
   'options' => array( 0 => 'No', 1 => 'Yes' ),
   'default' => 0,
-  'name' => 'disable_contactform_guest', 'value' => $setting->getValue('disable_contactform_guest'),
+  'name' => 'disable_contactform_guest', 'value' => $setting->getValue('disable_contactform'),
   'tooltip' => 'Enable or Disable Contactform. Users will not be able to use the contact form.'
 );
 $aSettings['system'][] = array(
