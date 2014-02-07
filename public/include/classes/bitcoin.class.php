@@ -292,7 +292,7 @@ class BitcoinClient extends jsonRPCClient {
    */
   public function can_connect() {
     try {
-      $r = parent::getinfo();
+      $r = $this->getinfo();
     } catch (Exception $e) {
       return $e->getMessage();
     }
@@ -301,7 +301,7 @@ class BitcoinClient extends jsonRPCClient {
 
     public function validateaddress($coin_address) {
     try {
-      $aStatus = parent::validateaddress($coin_address);
+      $aStatus = $this->validateaddress($coin_address);
       if (!$aStatus['isvalid']) {
         return false;
       }
@@ -312,6 +312,4 @@ class BitcoinClient extends jsonRPCClient {
   }  
 }
 
-$bitcoin = new Bitcoin($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], $config['DEBUG'], $debug);
-$bitcoininfo = new BitcoinClient($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], $config['DEBUG'], $debug);
-$bitcoininfo->setDebug($debug);
+$bitcoin = new Bitcoin($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG, $debug);
