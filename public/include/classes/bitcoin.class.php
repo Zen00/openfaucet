@@ -298,18 +298,4 @@ class BitcoinClient extends jsonRPCClient {
     }
     return true;
   }
-
-    public function validateaddress($coin_address) {
-    try {
-      $aStatus = $this->validateaddress($coin_address);
-      if (!$aStatus['isvalid']) {
-        return false;
-      }
-    } catch (Exception $e) {
-      return false;
-    }
-    return true;
-  }  
 }
-
-$bitcoin = new BitcoinClient($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG, $debug);
