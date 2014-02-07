@@ -40,8 +40,12 @@ class BitcoinClient extends jsonRPCClient {
 * @access public
 * @throws BitcoinClientException
 */
-public function __construct($type, $username, $password, $address = "localhost", $debug_level) {
+public function __construct($scheme, $username, $password, $host = "localhost", $debug_level) {
     $scheme = strtolower($type);
+    $this->scheme = $scheme;
+    $this->username = $username;
+    $this->password = $password;
+    $this->host = $host;
     $debug_level > 0 ? $debug_level = true : $debug_level = false;
     if ($scheme != "http" && $scheme != "https")
       throw new Exception("Scheme must be http or https");
@@ -49,13 +53,10 @@ public function __construct($type, $username, $password, $address = "localhost",
       throw new Exception("Username must be non-blank");
     if (empty($password))
       throw new Exception("Password must be non-blank");
-    if (!empty($certificate_path) && !is_readable($certificate_path))
-      throw new Exception("Certificate file " . $certificate_path . " is not readable");
-    $uri = $scheme . "://" . $username . ":" . $password . "@" . $address . "/";
-    parent::__construct($uri, $debug_level);
+    return parent::__construct($this->type, $this->username, $this->password, $this->host, '', $debug_level);
 }
 
-  /**
+/**
 * Test if the connection to the Bitcoin JSON-RPC server is working
 *
 * The check is done by calling the server's getinfo() method and checking
@@ -67,7 +68,7 @@ public function __construct($type, $username, $password, $address = "localhost",
 */
   public function can_connect() {
     try {
-      $r = $this->getinfo();
+      $r = parent::getinfo();
     } catch (Exception $e) {
       return $e->getMessage();
     }
@@ -88,4 +89,4 @@ public function __construct($type, $username, $password, $address = "localhost",
 }
 
 // Load this wrapper
-$bitcoin = new BitcoinClient($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG, $debug);
+$bitcoin = new BitcoinClient($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG);

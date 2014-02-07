@@ -25,15 +25,6 @@ if (!$smarty->isCached('master.tpl', $smarty_cache_key)) {
     $dNewmint = -1;
     $_SESSION['POPUP'][] = array('CONTENT' => 'Unable to connect to wallet RPC service: ' . $bitcoin->can_connect(), 'TYPE' => 'errormsg');
   }
-  // Fetch unconfirmed amount from blocks table
-  empty($config['network_confirmations']) ? $confirmations = 120 : $confirmations = $config['network_confirmations'];
-  $aBlocksUnconfirmed = $block->getAllUnconfirmed($confirmations);
-  $dBlocksUnconfirmedBalance = 0;
-  if (!empty($aBlocksUnconfirmed))
-    foreach ($aBlocksUnconfirmed as $aData) $dBlocksUnconfirmedBalance += $aData['amount'];
-
-  // Fetch locked balance from transactions
-  $dLockedBalance = $transaction->getLockedBalance();
 
   // Cold wallet balance
   if (! $dColdCoins = $setting->getValue('wallet_cold_coins')) $dColdCoins = 0;
