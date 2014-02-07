@@ -312,4 +312,4 @@ class BitcoinClient extends jsonRPCClient {
   }  
 }
 
-$bitcoin = new Bitcoin($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG, $debug);
+$bitcoin = new BitcoinClient($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG, $debug);
