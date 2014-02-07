@@ -5,16 +5,6 @@
     <td align="left">Wallet Balance</td>
     <td align="left">{$BALANCE|number_format:"8"}</td>
   </tr>
-  <tr>
-    <td align="left">Unconfirmed</td>
-    <td align="left">{$UNCONFIRMED|number_format:"8"}</td>
-  </tr>
-{if $NEWMINT >= 0}
-  <tr>
-    <td align="left">PoS New Mint</td>
-    <td align="left">{$NEWMINT|number_format:"8"}</td>
-  </tr>
-{/if}
 </table>
 </article>
 
