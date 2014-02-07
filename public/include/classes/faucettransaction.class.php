@@ -159,5 +159,4 @@ $fTransaction = new faucetTransaction();
 $fTransaction->setMysql($mysqli);
 $fTransaction->setDebug($debug);
 $fTransaction->setErrorCodes($aErrorCodes);
-$transaction->setBlock($block);
 $transaction->setUser($user);
