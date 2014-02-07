@@ -5,15 +5,6 @@ if (!defined('SECURITY'))
 
 require_once(INCLUDE_DIR . "/lib/jsonRPCClient.php");
 
-/**
-* Bitcoin client class for access to a Bitcoin server via JSON-RPC-HTTP[S]
-*
-* Implements the methods documented at https://en.bitcoin.it/wiki/Api
-*
-* @version 0.3.19
-* @author Mike Gogulski
-* http://www.gogulski.com/ http://www.nostate.com/
-*/
 class Bitcoin extends jsonRPCClient {
 
   /**
@@ -40,15 +31,21 @@ class Bitcoin extends jsonRPCClient {
 * @access public
 * @throws BitcoinClientException
 */
-  public function __construct($type, $username, $password, $host, $debug_level) {
-    $this->type = $type;
-    $this->username = $username;
-    $this->password = $password;
-    $this->host = $host;
-    $debug_level > 0 ? $debug_level = true : $debug_level = false;
-    return parent::__construct($this->type, $this->username, $this->password, $this->host, '', $debug_level);
-  }
 
+  public function __construct($scheme, $username, $password, $address = "localhost", $certificate_path = '', $debug = false) {
+    $scheme = strtolower($scheme);
+    if ($scheme != "http" && $scheme != "https")
+      throw new Exception("Scheme must be http or https");
+    if (empty($username))
+      throw new Exception("Username must be non-blank");
+    if (empty($password))
+      throw new Exception("Password must be non-blank");
+    if (!empty($certificate_path) && !is_readable($certificate_path))
+      throw new Exception("Certificate file " . $certificate_path . " is not readable");
+    $uri = $scheme . "://" . $username . ":" . $password . "@" . $address . "/";
+    parent::__construct($uri, $debug);
+  }
+  
 /**
 * Test if the connection to the Bitcoin JSON-RPC server is working
 *
