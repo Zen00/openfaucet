@@ -143,7 +143,7 @@ class User extends Base {
     if ($this->checkUserPassword($username, $password)) {
       $this->updateLoginTimestamp($this->getUserId($username));
       $this->createSession($username);
-	  $this->setUserIp($this->getUserId($username), $_SERVER['REMOTE_ADDR'])
+      $this->setUserIp($this->getUserId($username), $_SERVER['REMOTE_ADDR'])
     }
     $this->setErrorMessage("Invalid username or password");
     if ($id = $this->getUserId($username)) {
@@ -160,6 +160,7 @@ class User extends Base {
         }
       }
     }
+
     return false;
   }
 
