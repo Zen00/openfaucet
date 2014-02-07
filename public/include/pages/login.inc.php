@@ -20,7 +20,7 @@ if ($setting->getValue('maintenance') && !$user->isAdmin($user->getUserIdByEmail
     } else {
       $_SESSION['POPUP'][] = array('CONTENT' => $csrftoken->getErrorWithDescriptionHTML(), 'TYPE' => 'info');
     }
+}
 
 // Load login template
 $smarty->assign('CONTENT', 'default.tpl');
-?>
