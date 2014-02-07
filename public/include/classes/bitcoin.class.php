@@ -34,7 +34,7 @@ class Bitcoin extends jsonRPCClient {
 
   public function __construct($scheme, $username, $password, $address = "localhost", $certificate_path = '', $debug = false) {
     $scheme = strtolower($scheme);
-    $debug_level > 0 ? $debug_level = true : $debug_level = false;
+    $debug > 0 ? $debug = true : $debug = false;
     if ($scheme != "http" && $scheme != "https")
       throw new Exception("Scheme must be http or https");
     if (empty($username))
