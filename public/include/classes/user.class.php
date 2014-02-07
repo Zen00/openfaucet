@@ -608,10 +608,6 @@ class User extends Base {
    **/
   public function register($username, $password1, $password2, $pin, $email1='', $email2='', $tac='', $strToken='') {
     $this->debug->append("STA " . __METHOD__, 4);
-    if ($tac != 1) {
-      $this->setErrorMessage('You need to accept our <a href="'.$_SERVER['SCRIPT_NAME'].'?page=tac" target="_blank">Terms and Conditions</a>');
-      return false;
-    }
     if (strlen($username) > 40) {
       $this->setErrorMessage('Username exceeding character limit');
       return false;
@@ -644,39 +640,19 @@ class User extends Base {
       $this->setErrorMessage( 'Invalid PIN' );
       return false;
     }
-    if (isset($strToken) && !empty($strToken)) {
-      if ( ! $aToken = $this->token->getToken($strToken, 'invitation')) {
-        $this->setErrorMessage('Unable to find token');
-        return false;
-      }
-      // Circle dependency, so we create our own object here
-      $invitation = new Invitation();
-      $invitation->setMysql($this->mysqli);
-      $invitation->setDebug($this->debug);
-      $invitation->setUser($this);
-      $invitation->setConfig($this->config);
-      if (!$invitation->setActivated($aToken['id'])) {
-        $this->setErrorMessage('Unable to activate your invitation');
-        return false;
-      }
-      if (!$this->token->deleteToken($strToken)) {
-        $this->setErrorMessage('Unable to remove used token');
-        return false;
-      }
-    }
     if ($this->mysqli->query("SELECT id FROM $this->table LIMIT 1")->num_rows > 0) {
       ! $this->setting->getValue('accounts_confirm_email_disabled') ? $is_locked = 1 : $is_locked = 0;
       $is_admin = 0;
       $stmt = $this->mysqli->prepare("
-        INSERT INTO $this->table (username, pass, email, signup_timestamp, pin, api_key, is_locked)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO $this->table (username, pass, email, signup_timestamp, pin, is_locked)
+        VALUES (?, ?, ?, ?, ?, ?)
         ");
     } else {
       $is_locked = 0;
       $is_admin = 1;
       $stmt = $this->mysqli->prepare("
-        INSERT INTO $this->table (username, pass, email, signup_timestamp, pin, api_key, is_admin, is_locked)
-        VALUES (?, ?, ?, ?, ?, ?, 1, ?)
+        INSERT INTO $this->table (username, pass, email, signup_timestamp, pin, is_admin, is_locked)
+        VALUES (?, ?, ?, ?, ?, 1, ?)
         ");
     }
 
@@ -687,7 +663,7 @@ class User extends Base {
     $username_clean = strip_tags($username);
     $signup_time = time();
 
-    if ($this->checkStmt($stmt) && $stmt->bind_param('sssissi', $username_clean, $password_hash, $email1, $signup_time, $pin_hash, $apikey_hash, $is_locked) && $stmt->execute()) {
+    if ($this->checkStmt($stmt) && $stmt->bind_param('sssisi', $username_clean, $password_hash, $email1, $signup_time, $pin_hash, $is_locked) && $stmt->execute()) {
       if (! $this->setting->getValue('accounts_confirm_email_disabled') && $is_admin != 1) {
         if ($token = $this->token->createToken('confirm_email', $stmt->insert_id)) {
           $aData['username'] = $username_clean;
