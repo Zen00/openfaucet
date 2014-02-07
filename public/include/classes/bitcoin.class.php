@@ -14,7 +14,7 @@ require_once(INCLUDE_DIR . "/lib/jsonRPCClient.php");
 * @author Mike Gogulski
 * http://www.gogulski.com/ http://www.nostate.com/
 */
-class BitcoinClient extends jsonRPCClient {
+class Bitcoin extends jsonRPCClient {
 
   /**
 * Create a jsonrpc_client object to talk to the bitcoin server and return it,
@@ -40,21 +40,14 @@ class BitcoinClient extends jsonRPCClient {
 * @access public
 * @throws BitcoinClientException
 */
-public function __construct($scheme, $username, $password, $host = "localhost", $debug_level) {
-    $scheme = strtolower($type);
-    $this->scheme = $scheme;
+  public function __construct($type, $username, $password, $host, $debug_level) {
+    $this->type = $type;
     $this->username = $username;
     $this->password = $password;
     $this->host = $host;
     $debug_level > 0 ? $debug_level = true : $debug_level = false;
-    if ($scheme != "http" && $scheme != "https")
-      throw new Exception("Scheme must be http or https");
-    if (empty($username))
-      throw new Exception("Username must be non-blank");
-    if (empty($password))
-      throw new Exception("Password must be non-blank");
     return parent::__construct($this->type, $this->username, $this->password, $this->host, '', $debug_level);
-}
+  }
 
 /**
 * Test if the connection to the Bitcoin JSON-RPC server is working
@@ -89,4 +82,4 @@ public function __construct($scheme, $username, $password, $host = "localhost", 
 }
 
 // Load this wrapper
-$bitcoin = new BitcoinClient($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG);
+$bitcoin = new Bitcoin($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG);
