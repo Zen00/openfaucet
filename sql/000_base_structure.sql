@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `transactions` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `txid` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `type` (`type`),
+  KEY `type` (`type`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
