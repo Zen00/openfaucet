@@ -9,8 +9,8 @@
 # PHP Detections, if this fails hard code it
 PHP_BIN=$( which php )
 
-# List of cruns to execute
-CRONS="faucetpayouts.php, token_cleanup.php"
+# List of crons to execute
+CRONS="faucetpayouts.php"
 
 # Output additional runtime information
 VERBOSE="0"
