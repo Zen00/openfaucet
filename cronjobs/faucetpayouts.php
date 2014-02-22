@@ -67,7 +67,7 @@ if (count($uPayout) > 0) {
 			if ($fTransaction->addTransaction($uData['id'], $config['payout'], 'Debit_MP', NULL, $uData['user_address'], NULL)) {
 				
 				// Store debit transaction ID for later update
-				$transaction_id = $transaction->insert_id;
+				$transaction_id = $fTransaction->insert_id;
 				
 				// Run the payouts from RPC now that the user is fully debited
 				try {
