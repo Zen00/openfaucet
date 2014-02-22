@@ -46,7 +46,7 @@ class Faucetusers extends Base {
 	
 	public function emptyTable() {
 		$this->debug->append("STA " . __METHOD__, 4);
-		$stmt = $this->mysqli->prepare("TRUNCATE TABLE $this->table")->execute()->close();
+		$stmt = $this->mysqli->prepare("TRUNCATE TABLE $this->table")->execute();
 	}
 }
 
