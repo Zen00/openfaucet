@@ -1,16 +1,14 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 class Monitoring extends Base {
    protected $table = 'monitoring';
 
   /**
-   * Store Uptime Robot status information as JSON in settings table
-   * @param none
-   * @return bool true on success, false on error
-   **/
+* Store Uptime Robot status information as JSON in settings table
+* @param none
+* @return bool true on success, false on error
+**/
   public function storeUptimeRobotStatus() {
     if ($api_keys = $this->setting->getValue('monitoring_uptimerobot_api_keys')) {
       $aJSONData = array();
@@ -42,10 +40,10 @@ class Monitoring extends Base {
   }
 
   /**
-   * Fetch Uptime Robot Status from settings table
-   * @param none
-   * @return array Data on success, false on failure
-   **/
+* Fetch Uptime Robot Status from settings table
+* @param none
+* @return array Data on success, false on failure
+**/
   public function getUptimeRobotStatus() {
     if ($json = $this->setting->getValue('monitoring_uptimerobot_status'))
       return json_decode($json, true);
@@ -53,20 +51,20 @@ class Monitoring extends Base {
   }
 
   /**
-   * Check that our cron is currently activated
-   * @param name string Cronjob name
-   * @return bool true or false
-   **/
+* Check that our cron is currently activated
+* @param name string Cronjob name
+* @return bool true or false
+**/
   public function isDisabled($name) {
     $aStatus = $this->getStatus($name . '_disabled');
     return $aStatus['value'];
   }
 
   /**
-   * Fetch a value from our table
-   * @param name string Setting name
-   * @return value string Value
-   **/
+* Fetch a value from our table
+* @param name string Setting name
+* @return value string Value
+**/
   public function getStatus($name) {
     $query = $this->mysqli->prepare("SELECT * FROM $this->table WHERE name = ? LIMIT 1");
     if ($query && $query->bind_param('s', $name) && $query->execute() && $result = $query->get_result()) {
@@ -78,17 +76,17 @@ class Monitoring extends Base {
   }
 
   /**
-   * Insert or update a setting
-   * @param name string Name of the variable
-   * @param value string Variable value
-   * @return bool
-   **/
+* Insert or update a setting
+* @param name string Name of the variable
+* @param value string Variable value
+* @return bool
+**/
   public function setStatus($name, $type, $value) {
     $stmt = $this->mysqli->prepare("
-      INSERT INTO $this->table (name, type, value)
-      VALUES (?, ?, ?)
-      ON DUPLICATE KEY UPDATE value = ?
-      ");
+INSERT INTO $this->table (name, type, value)
+VALUES (?, ?, ?)
+ON DUPLICATE KEY UPDATE value = ?
+");
     if ($stmt && $stmt->bind_param('ssss', $name, $type, $value, $value) && $stmt->execute())
       return true;
     $this->debug->append("Failed to set $name to $value");
@@ -96,13 +94,28 @@ class Monitoring extends Base {
   }
 
   /**
-   * End cronjob with an error message
-   * @param cron_name string Cronjob Name
-   * @param msgCode string Message code as stored in error_codes array
-   * @param exitCode int Exit code to pass on to exit function and monitor report
-   * @param fatal boolean Should we exit out entirely
-   * @return none
-   **/
+* Start a cronjob, mark various fields properly
+* @param cron_name string Cronjob name
+**/
+  public function startCronjob($cron_name) {
+    $aStatus = $this->getStatus($cron_name . '_active');
+    if ($aStatus['value'] == 1) {
+      $this->setErrorMessage('Cron is already active in database: ' . $cron_name . '_active is 1, please force run with -f once ensured it\' not running');
+      return false;
+    }
+    $this->setStatus($cron_name . "_active", "yesno", 1);
+    $this->setStatus($cron_name . '_starttime', 'date', time());
+    return true;
+  }
+
+  /**
+* End cronjob with an error message
+* @param cron_name string Cronjob Name
+* @param msgCode string Message code as stored in error_codes array
+* @param exitCode int Exit code to pass on to exit function and monitor report
+* @param fatal boolean Should we exit out entirely
+* @return none
+**/
   public function endCronjob($cron_name, $msgCode, $exitCode=0, $fatal=false, $mail=true) {
     $this->setStatus($cron_name . "_active", "yesno", 0);
     $this->setStatus($cron_name . "_message", "message", $this->getErrorMsg($msgCode));

@@ -1,8 +1,5 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY'))
-  die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 // twofactor stuff
 $cp_editable = $wf_editable = $ea_editable = $wf_sent = $ea_sent = $cp_sent = 0;
@@ -189,4 +186,3 @@ $smarty->assign("DETAILSSENT", $ea_sent);
 
 // Tempalte specifics
 $smarty->assign("CONTENT", "default.tpl");
-?>

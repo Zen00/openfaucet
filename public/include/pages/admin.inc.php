@@ -1,7 +1,5 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 // Check user to ensure they are admin
 if (!$user->isAuthenticated() || !$user->isAdmin($_SESSION['USERDATA']['id'])) {
@@ -11,4 +9,3 @@ if (!$user->isAuthenticated() || !$user->isAdmin($_SESSION['USERDATA']['id'])) {
 
 // Tempalte specifics
 $smarty->assign("CONTENT", "");
-?>

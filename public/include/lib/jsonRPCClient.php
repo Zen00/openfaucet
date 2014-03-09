@@ -1,6 +1,6 @@
 <?php
 /*
-          COPYRIGHT
+COPYRIGHT
 
 Copyright 2007 Sergio Vaccaro <sergio@inservibile.org>
 
@@ -13,49 +13,49 @@ the Free Software Foundation; either version 2 of the License, or
 
 JSON-RPC PHP is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with JSON-RPC PHP; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+*/
 
 /**
- * The object of this class are generic jsonRPC 1.0 clients
- * http://json-rpc.org/wiki/specification
- *
- * @author sergio <jsonrpcphp@inservibile.org>
- */
+* The object of this class are generic jsonRPC 1.0 clients
+* http://json-rpc.org/wiki/specification
+*
+* @author sergio <jsonrpcphp@inservibile.org>
+*/
 class jsonRPCClient {
 
   /**
-   * Debug state
-   *
-   * @var boolean
-   */
+* Debug state
+*
+* @var boolean
+*/
   private $debug;
   private $debug_output = NULL;
 
   /**
-   * The server URL
-   *
-   * @var string
-   */
+* The server URL
+*
+* @var string
+*/
   private $url;
   /**
-   * The request id
-   *
-   * @var integer
-   */
+* The request id
+*
+* @var integer
+*/
   private $id;
 
   /**
-   * Takes the connection parameters
-   *
-   * @param string $url
-   * @param boolean $debug
-   */
+* Takes the connection parameters
+*
+* @param string $url
+* @param boolean $debug
+*/
   public function __construct($url, $debug = false) {
     $this->url = $url;
     $this->debug = $debug;	
@@ -64,22 +64,22 @@ class jsonRPCClient {
   }
 
   /**
-   * Fetch debug information
-   * @param none
-   * @return array Debug data
-   **/
+* Fetch debug information
+* @param none
+* @return array Debug data
+**/
   public function getDebugData() {
     if ($this->debug) return $this->debug_output;
     return false;
   }
 
   /**
-   * Performs a jsonRCP request and gets the results as an array
-   *
-   * @param string $method
-   * @param array $params
-   * @return array
-   */
+* Performs a jsonRCP request and gets the results as an array
+*
+* @param string $method
+* @param array $params
+* @return array
+*/
   public function __call($method, $params) {
     if (!is_scalar($method)) throw new Exception('Method name has no scalar value');
 
@@ -114,7 +114,7 @@ class jsonRPCClient {
     $resultStatus = curl_getinfo($ch);
     if ($resultStatus['http_code'] != '200') {
       if ($resultStatus['http_code'] == '401') throw new Exception('RPC call did not return 200: Authentication failed');
-      throw new Exception('RPC call did not return 200: HTTP error: ' . $resultStatus['http_code']);
+      throw new Exception('RPC call did not return 200: HTTP error: ' . $resultStatus['http_code'] . ' - JSON Response: [' . @$response['error']['code'] . '] ' . @$response['error']['message']);
     }
     if (curl_errno($ch)) throw new Exception('RPC call failed: ' . curl_error($ch));
     curl_close($ch);

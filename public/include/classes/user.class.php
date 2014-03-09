@@ -1,8 +1,5 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY'))
-  die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 class User extends Base {
   protected $table = 'accounts';
@@ -713,7 +710,7 @@ class User extends Base {
 $user = new User();
 $user->setDebug($debug);
 $user->setMysql($mysqli);
-$user->setSalt(SALT);
+$user->setSalt($config['SALT']);
 $user->setSmarty($smarty);
 $user->setConfig($config);
 $user->setMail($mail);

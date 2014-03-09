@@ -1,7 +1,5 @@
 <?php
-// Make sure we are called from index.php
-if (!defined('SECURITY'))
-  die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 require_once(INCLUDE_DIR . "/lib/jsonRPCClient.php");
 
@@ -80,4 +78,4 @@ class Bitcoin extends jsonRPCClient {
 }
 
 // Load this wrapper
-$bitcoin = new Bitcoin($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG);
+$bitcoin = new BitcoinWrapper($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], $config['DEBUG'], $debug);

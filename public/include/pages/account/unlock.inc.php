@@ -1,7 +1,5 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 // Confirm an account by token
 if (!isset($_GET['token']) || empty($_GET['token'])) {
@@ -21,5 +19,3 @@ if (!isset($_GET['token']) || empty($_GET['token'])) {
   }
 }
 $smarty->assign('CONTENT', 'default.tpl');
-
-?>

@@ -1,6 +1,5 @@
 <?php
-// Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 /**
  * Do not edit this unless you have confirmed that your config has been updated!
@@ -9,25 +8,19 @@ if (!defined('SECURITY')) die('Hacking attempt');
  **/
 $config['version'] = '0.0.1';
 
-// Our include directory for additional features
-define('INCLUDE_DIR', BASEPATH . 'include');
-
-// Our class directory
-define('CLASS_DIR', INCLUDE_DIR . '/classes');
-
-// Our pages directory which takes care of
-define('PAGES_DIR', INCLUDE_DIR . '/pages');
-
-// Our theme folder holding all themes
-define('THEME_DIR', BASEPATH . 'templates');
+/**
+* Unless you disable this, we'll do a quick check on your config first.
+* https://github.com/MPOS/php-mpos/wiki/Config-Setup#wiki-config-check
+*/
+$config['skip_config_tests'] = false;
 
 // Set debugging level for our debug class
 // Values valid from 0 (disabled) to 5 (most verbose)
-define('DEBUG', 0);
+$config['DEBUG'] = 0;
 
 // SALT used to hash passwords
-define('SALT', 'PLEASEMAKEMESOMETHINGRANDOM');
-define('SALTY', 'THISSHOULDALSOBERRAANNDDOOM');
+$config['SALT'] = 'PLEASEMAKEMESOMETHINGRANDOM';
+$config['SALTY'] = 'THISSHOULDALSOBERRAANNDDOOM';
 
 /**
  * Database configuration
@@ -102,65 +95,6 @@ $config['coldwallet']['threshold'] = 5;
  */
 $config['payout'] = 1.0;
 
-
-/**
- * E-mail confirmations for user actions
- *
- * Explanation:
- *   To increase security for users, account detail changes can require
- *   an e-mail confirmation prior to performing certain actions.
- *
- * Options:
- *   enabled   :  Whether or not to require e-mail confirmations
- *   details   :  Require confirmation to change account details
- *   withdraw  :  Require confirmation to manually withdraw/payout
- *   changepw  :  Require confirmation to change password
- *
- * Default:
- *   enabled   =  true
- *   details   =  true
- *   withdraw  =  true
- *   changepw  =  true
- */
-$config['twofactor']['enabled'] = true;
-$config['twofactor']['options']['details'] = true;
-$config['twofactor']['options']['withdraw'] = true;
-$config['twofactor']['options']['changepw'] = true;
-
-/**
- * CSRF protection
- *
- * Explanation:
- *   To help protect against CSRF, we can generate a hash that changes every minute
- *   and is unique for each user/IP and page or use, and check against that when a
- *   form is submitted.
- *
- * Options:
- *   enabled          =   Whether or not we will generate & check for valid CSRF tokens
- * Default:
- *   enabled          =   true
- */
-$config['csrf']['enabled'] = true;
-
-/**
- * Lock account after maximum failed logins
- *
- * Explanation:
- *   To avoid accounts being hacked by brute force attacks,
- *   set a maximum amount of failed login or pin entry attempts before locking
- *   the account. They will need to contact site support to re-enable the account.
- *
- *   This also applies for invalid PIN entries, which is covered by the pin option.
- *
- *   Workers are not affected by this lockout, mining will continue as usual.
- *
- * Default:
- *   login  =  3
- *   pin    =  3
- **/
-$config['maxfailed']['login'] = 3;
-$config['maxfailed']['pin'] = 3;
- 
 // Currency system used in this pool, default: `LTC`
 $config['currency'] = 'LTC';
 

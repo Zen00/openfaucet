@@ -1,19 +1,19 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 if ($setting->getValue('maintenance') && !$user->isAdmin($user->getUserIdByEmail($_POST['username']))) {
   $_SESSION['POPUP'][] = array('CONTENT' => 'You are not allowed to login during maintenace.', 'TYPE' => 'info');
 } else if (!empty($_POST['username']) && !empty($_POST['password'])) {
   // Process form data if valid
-    if (!$config['csrf']['enabled'] || $config['csrf']['enabled'] && $csrftoken->valid) {
+if (!$config['csrf']['enabled'] || $config['csrf']['enabled'] && $csrftoken->valid) {
+      // check if login is correct
       if ($user->checkLogin(@$_POST['username'], @$_POST['password']) ) {
-        $port = ($_SERVER["SERVER_PORT"] == "80" or $_SERVER["SERVER_PORT"] == "443") ? "" : (":".$_SERVER["SERVER_PORT"]);
-        $location = @$_SERVER['HTTPS'] === true ? 'https://' : 'http://';
-        $location .= $_SERVER['SERVER_NAME'] . $port . $_SERVER['SCRIPT_NAME'] . '?page=index.php';
+        $port = ($_SERVER["SERVER_PORT"] == "80" || $_SERVER["SERVER_PORT"] == "443") ? "" : (":".$_SERVER["SERVER_PORT"]);
+        $location = (@$_SERVER['HTTPS'] == "on") ? 'https://' : 'http://';
+        $location .= $_SERVER['SERVER_NAME'] . $port . $_SERVER['SCRIPT_NAME'];
+        $location.= '?page=index.php';
         if (!headers_sent()) header('Location: ' . $location);
-        	exit('<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($location) . '"/>');
+        exit('<meta http-equiv="refresh" content="0; url=' . htmlspecialchars($location) . '"/>');
       } else {
         $_SESSION['POPUP'][] = array('CONTENT' => 'Unable to login: '.$user->getError(), 'TYPE' => 'errormsg');
       }

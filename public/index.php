@@ -1,48 +1,38 @@
 <?php
 
-/*
+// Set a decently long SECURITY key with special chars etc
+define('SECURITY', '*)WT#&YHfd');
+// Whether or not to check SECHASH for validity, still checks if SECURITY defined as before if disabled
+define('SECHASH_CHECK', false);
 
-Copyright:: 2013, Sebastian Grewe
+// Nothing below here to configure, move along...
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+// change SECHASH every second, we allow up to 3 sec back for slow servers
+if (SECHASH_CHECK) {
+  function fip($tr=0) { return md5(SECURITY.(time()-$tr).SECURITY); }
+  define('SECHASH', fip());
+  function cfip() { return (fip()==SECHASH||fip(1)==SECHASH||fip(2)==SECHASH) ? 1 : 0; }
+} else {
+  function cfip() { return (@defined('SECURITY')) ? 1 : 0; }
+}
 
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
- */
-
-// Used for performance calculations
-$dStartTime = microtime(true);
-
-// This should be okay
-// No but Its now, - Aim
+// Define Basepath for file directories
 define("BASEPATH", dirname(__FILE__) . "/");
 
-// Our security check
-define("SECURITY", 1);
+// all our includes and config etc are now in bootstrap
+include_once('include/bootstrap.php');
 
-// Include our configuration (holding defines for the requires)
-if (!include_once(BASEPATH . 'include/config/global.inc.php')) die('Unable to load site configuration');
+// switch to https if config option is enabled
+$hts = ($config['https_only'] && (!empty($_SERVER['QUERY_STRING']))) ? "https://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME']."?".$_SERVER['QUERY_STRING'] : "https://".$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+($config['https_only'] && @!$_SERVER['HTTPS']) ? exit(header("Location: ".$hts)):0;
 
-// Our default template to load, pages can overwrite this later
-$master_template = 'master.tpl';
-
-// Start a session
-session_set_cookie_params(time()+$config['cookie']['duration'], $config['cookie']['path'], $config['cookie']['domain'], $config['cookie']['secure'], $config['cookie']['httponly']);
-$session_start = @session_start();
-if (!$session_start) {
-  session_destroy();
-  session_regenerate_id(true);
-  session_start();
+// version check and config check if not disabled
+if (@$_SESSION['USERDATA']['is_admin'] && $user->isAdmin(@$_SESSION['USERDATA']['id'])) {
+  require_once(INCLUDE_DIR . '/version.inc.php');
+  if (!@$config['skip_config_tests']) {
+    require_once(INCLUDE_DIR . '/admin_checks.php');
+  }
 }
-@setcookie(session_name(), session_id(), time()+$config['cookie']['duration'], $config['cookie']['path'], $config['cookie']['domain'], $config['cookie']['secure'], $config['cookie']['httponly']);
 
 // Load Classes, they name defines the $ variable used
 // We include all needed files here, even though our templates could load them themself
@@ -77,6 +67,7 @@ if (is_dir(INCLUDE_DIR . '/pages/' . $page)) {
     $debug->append("Adding $pagename as " . $filename . ".inc.php to accessible actions", 4);
   }
 }
+
 // Default to empty (nothing) if nothing set or not known
 $action = (isset($_REQUEST['action']) && !is_array($_REQUEST['action'])) && isset($arrActions[$_REQUEST['action']]) ? $_REQUEST['action'] : "";
 
@@ -117,5 +108,3 @@ if (!@$supress_master) $smarty->display($master_template, $smarty_cache_key);
 
 // Unset any temporary values here
 unset($_SESSION['POPUP']);
-
-?>

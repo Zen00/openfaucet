@@ -1,7 +1,5 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 if ($user->isAuthenticated()) {
   // Reset failed login counter
@@ -10,4 +8,3 @@ if ($user->isAuthenticated()) {
 }
 // Somehow we still need to load this empty template
 $smarty->assign("CONTENT", "empty");
-?>

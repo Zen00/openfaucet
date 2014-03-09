@@ -1,7 +1,5 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+(!cfip()) ? header('HTTP/1.1 401 Unauthorized') : 0;
 
 class Faucetpayout Extends Base {
   protected $table = 'users';

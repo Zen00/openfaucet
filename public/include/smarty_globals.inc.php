@@ -1,7 +1,5 @@
 <?php
-
-// Make sure we are called from index.php
-if (!defined('SECURITY')) die('Hacking attempt');
+$defflip = (!cfip()) ? exit(header('HTTP/1.1 401 Unauthorized')) : 1;
 
 // Globally available variables
 $debug->append('Global smarty variables', 3);
@@ -39,21 +37,20 @@ $aGlobal['statistics']['analytics']['code'] = $setting->getValue('statistics_ana
 if (@$_SESSION['USERDATA']['id']) {
   $aGlobal['userdata'] = $_SESSION['USERDATA']['id'] ? $user->getUserData($_SESSION['USERDATA']['id']) : array();
 
-  // Site-wide notifications, based on user events
-  if ($user->getUserFailed($_SESSION['USERDATA']['id']) > 0)
+// Site-wide notifications, based on user events
+if ($user->getUserFailed($_SESSION['USERDATA']['id']) > 0)
     $_SESSION['POPUP'][] = array('CONTENT' => 'You have ' . $user->getUserFailed($_SESSION['USERDATA']['id']) . ' failed login attempts! <a href="?page=account&action=reset_failed">Reset Counter</a>', 'TYPE' => 'errormsg');
 }
 
 if ($setting->getValue('maintenance'))
-  $_SESSION['POPUP'][] = array('CONTENT' => 'This pool is currently in maintenance mode.', 'TYPE' => 'warning');
+  $_SESSION['POPUP'][] = array('CONTENT' => 'This faucet is currently in maintenance mode.', 'TYPE' => 'warning');
 if ($motd = $setting->getValue('system_motd'))
   $_SESSION['POPUP'][] = array('CONTENT' => $motd, 'TYPE' => 'info');
 
 // So we can display additional info
-$smarty->assign('DEBUG', DEBUG);
+$smarty->assign('DEBUG', $config['DEBUG']);
 
 // Make it available in Smarty
 $smarty->assign('PATH', 'site_assets/' . THEME);
 $smarty->assign('GLOBALASSETS', 'site_assets/global');
 $smarty->assign('GLOBAL', $aGlobal);
-?>
