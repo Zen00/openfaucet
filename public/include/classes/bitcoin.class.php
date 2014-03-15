@@ -80,4 +80,5 @@ class Bitcoin extends jsonRPCClient {
 }
 
 // Load this wrapper
-$bitcoin = new Bitcoin($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], DEBUG);
+// Heihachi: added NULL to make the __construct function happy when DEBUG != 0
+$bitcoin = new Bitcoin($config['wallet']['type'], $config['wallet']['username'], $config['wallet']['password'], $config['wallet']['host'], NULL, DEBUG);
