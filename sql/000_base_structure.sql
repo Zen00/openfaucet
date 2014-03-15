@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `settings` (`name`, `value`) VALUES ('DB_VERSION', '0.0.1');
+INSERT INTO `settings` (`name`, `value`) VALUES ('website_theme', 'faucet');
 
 CREATE TABLE IF NOT EXISTS `tokens` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
